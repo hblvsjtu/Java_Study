@@ -30,6 +30,9 @@
 ## [七、接口](#7)
 ### [7.1 接口](#7.1)
 ### [7.2 通过继承来拓展接口和接口中的域](#7.2)
+## [八、内部类](#8)
+### [8.1 介绍](#8.1)
+### [8.2 为什么需要内部类](#8.2)
         
 ------      
         
@@ -236,16 +239,16 @@
 > - 接口的每一个方法确实都只是一个声明，这是编译器所允许的在接口中唯一能够存在的事物。此外，接口中没有任何方法被声明是public的，但是它们自动就是public的。
 #### 3) 完全解耦
 > - 策略设计模式：能够根据所传递的参数对象的不同而具有不同行为的方法。这类方法包含所要执行算法中固定不变的部分，而“策略”就是传递进去的参数对象。
->>>>>> ![图7-1 策略设计模式.png](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE6-1%20%E6%9E%84%E9%80%A0%E5%99%A8%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F%E7%9A%84%E5%9B%B0%E6%83%91.png?raw=true)
+>>>>>> ![图7-1 策略设计模式.png](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-1%20%E7%AD%96%E7%95%A5%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.png?raw=true)
 > - 适配器模式：其实是使用了代理
 > - 工厂模式
->>>>>> ![图7-3 工厂模式1](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE6-1%20%E6%9E%84%E9%80%A0%E5%99%A8%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F%E7%9A%84%E5%9B%B0%E6%83%91.png?raw=true)
->>>>>> ![图7-3 工厂模式2](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE6-1%20%E6%9E%84%E9%80%A0%E5%99%A8%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F%E7%9A%84%E5%9B%B0%E6%83%91.png?raw=true)
+>>>>>> ![图7-3 工厂模式1](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-3%20%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F1.png?raw=true)
+>>>>>> ![图7-3 工厂模式2](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-3%20%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F2.png?raw=true)
 #### 4) Java中的多重继承
 > - 接口是一种更加纯粹的抽象类，因为接口根本没有任何具体的实现，没有任何与接口相关的存储，也就无法阻止多个接口的组合；
                 
                 class Hero extends ActionCharacter implements implementsA, implementsB, implementsC
->>>>>> ![图7-2 Java中的多重继承](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE6-1%20%E6%9E%84%E9%80%A0%E5%99%A8%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F%E7%9A%84%E5%9B%B0%E6%83%91.png?raw=true)
+>>>>>> ![图7-2 Java中的多重继承](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-2%20Java%E4%B8%AD%E7%9A%84%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF.png?raw=true)
 #### 5) 面向接口编程
 > - 原因：
 >> - 为了能够向上转型为多个基类型
@@ -262,3 +265,67 @@
 > - 而且不需要添加private或者final或者static关键字
 > - 不能是“空final”，但是可以接受被非常量表达式初始化
 > - 嵌套在另一个接口中的接口自动就是public的
+        
+        
+------      
+        
+<h2 id='8'>八、内部类</h2>
+<h3 id='8.1'>8.1 介绍</h3>  
+        
+#### 1) 内部类是什么
+> - 将一个类的定义放在另一个类的定义内部，类似于一种代码隐藏机制
+> - 允许把一些逻辑相关的类组织在一起，并控制位于内部的类的可视性
+> - 内部类和组合是完全不同的概念
+> - 如果要在外部使用非静态方法创建某个内部类对象，则需要具体指明这个对象的类型：OuterClassName.InnerClassName
+> - 普通的内部类不能有static数据和static字段，也不能包含嵌套类。这是因为内部类不是static的话，里面的方法和字段是static又有什么用。
+> - 创建内部成员类的时候，需要使用“外围类”  + “.” + “new”语法
+#### 2) 链接到外部类
+> - 可以访问外围对象（其实就是它的上一层嵌套对象）的所有成员（该成员跟内部类处于同一级别），而不需要任何特殊条件
+> - 还拥有其外围类的所有元素的访问权一个指向那个外围对象的引用。然后，当你访问这个外围类下对象的时候就是用那个引用来选择外围类的成员
+> - 原因是什么：当一个外围类对象创建一个内部对象的时候，此内部独享必定会秘密捕获
+> - 通过一个外部类名字 + ‘.’ + this可以链接到外围类对象
+                
+                如： Outer.this // 表示外围类的引用，如果单独是一个this的话则表示内部类
+#### 3) 内部类和向上转型
+> - 使用内部类来隐藏使用的接口，关键是使用协同返回
+> - 内部类前添加private，那么除了外围类没有其他可以访问；如果内部类前添加protected，那么是由外围类及其子类，还有与外围类同一个包中的类能够访问
+>>>>>> ![图7-4 内部类隐藏接口](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-2%20Java%E4%B8%AD%E7%9A%84%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF.png?raw=true)
+#### 4) 在方法和作用域内的内部类
+> - 在方法作用域内创建一个完整的类，这被称作局部内部类
+> - 在方法之外无法访问，如果需要return该局部内部类，那么需要把该局部内部类进行继承和实现某接口，然后在使用的时候进行向上转型
+#### 5) 匿名内部类
+> - 方法的返回值的生成与表示这个返回值的类的定义结合在一起，其实匿名的是一个已有接口的实现
+> - 化简前
+>>>>>> ![图7-5 匿名内部类化简前](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-2%20Java%E4%B8%AD%E7%9A%84%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF.png?raw=true)
+> - 化简后
+>>>>>> ![图7-6 匿名内部类化简后](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-2%20Java%E4%B8%AD%E7%9A%84%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF.png?raw=true)
+> - 需要注意的是，在匿名内部类内使用的参数必须是在方法定义的时候必须是final的
+                
+                public class Parcel10 {
+                    destination(final String dest, final float price) {
+                        return new Destination() {
+                            System.out.printIn(dest * price);
+                        }
+                    }
+                }
+#### 6) 嵌套类
+> - 如果不需要内部对象与其外围对象之间有联系，那么可以将内部类声明为static
+> - 不能从嵌套类对象中访问非静态的外围类对象
+> - 内部类可以通过一个特殊的this链接到外围类对象，但是嵌套类就没有这个特殊的this引用，使得它的使用跟静态方法类似。
+> - 一个内部类被嵌套多少层都并不重要，他都能透明的访问所有它所潜入的外围类的所有成员
+#### 7) 内部类的继承
+> - 继承自内部类的时候需要使用特殊的语法进行初始化，否则编译会不通过
+                
+                enclosingClassReference.super();
+#### 8) 内部类的标识符
+> - 由于每个类都会产生.class文件
+> - 内部类都有自己的.class文件，只是该文件的名字是：外围类名字 + “$” + 内部类名字
+        
+<h3 id='8.2'>8.2 为什么需要内部类</h3>  
+        
+#### 1) 原因
+> - 每个内部类都能独立继承一个接口的实现，所以五路外围类是否已经继承了某个接口的实现，对内部类都没有影响
+> - 内部类使得多重继承的解决方案变得完整
+#### 2) 闭包和回调
+> - 
+> - 
