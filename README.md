@@ -33,6 +33,10 @@
 ## [八、内部类](#8)
 ### [8.1 介绍](#8.1)
 ### [8.2 为什么需要内部类](#8.2)
+## [九、持有对象](#8)
+### [9.1 介绍](#9.1)
+## [十、通过异常处理错误](#10)
+### [10.1 介绍](#10.1)
         
 ------      
         
@@ -289,16 +293,16 @@
 #### 3) 内部类和向上转型
 > - 使用内部类来隐藏使用的接口，关键是使用协同返回
 > - 内部类前添加private，那么除了外围类没有其他可以访问；如果内部类前添加protected，那么是由外围类及其子类，还有与外围类同一个包中的类能够访问
->>>>>> ![图7-4 内部类隐藏接口](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-2%20Java%E4%B8%AD%E7%9A%84%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF.png?raw=true)
+>>>>>> ![图7-4 内部类隐藏接口](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-4%20%E5%86%85%E9%83%A8%E7%B1%BB%E9%9A%90%E8%97%8F%E6%8E%A5%E5%8F%A3.png?raw=true)
 #### 4) 在方法和作用域内的内部类
 > - 在方法作用域内创建一个完整的类，这被称作局部内部类
 > - 在方法之外无法访问，如果需要return该局部内部类，那么需要把该局部内部类进行继承和实现某接口，然后在使用的时候进行向上转型
 #### 5) 匿名内部类
 > - 方法的返回值的生成与表示这个返回值的类的定义结合在一起，其实匿名的是一个已有接口的实现
 > - 化简前
->>>>>> ![图7-5 匿名内部类化简前](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-2%20Java%E4%B8%AD%E7%9A%84%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF.png?raw=true)
+>>>>>> ![图7-5 匿名内部类化简前](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-5%20%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB%E5%8C%96%E7%AE%80%E5%89%8D.png?raw=true)
 > - 化简后
->>>>>> ![图7-6 匿名内部类化简后](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-2%20Java%E4%B8%AD%E7%9A%84%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF.png?raw=true)
+>>>>>> ![图7-6 匿名内部类化简后](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-6%20%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB%E5%8C%96%E7%AE%80%E5%90%8E.png?raw=true)
 > - 需要注意的是，在匿名内部类内使用的参数必须是在方法定义的时候必须是final的
                 
                 public class Parcel10 {
@@ -327,5 +331,113 @@
 > - 每个内部类都能独立继承一个接口的实现，所以五路外围类是否已经继承了某个接口的实现，对内部类都没有影响
 > - 内部类使得多重继承的解决方案变得完整
 #### 2) 闭包和回调
+        
+        
+------      
+        
+<h2 id='9'>九、持有对象</h2>
+<h3 id='9.1'>9.1 持有对象</h3>  
+        
+#### 1) 介绍
+> - 应用于容器后，表示该容器可容纳的子元素类型，并用尖括号括起来
+                
+                ArrayList<Apple> apples = new ArrayList<Apple>();
+> - 如果没有在该使用泛型的地方使用泛型，就会出现警告信息，提示没有使用泛型。在这里可以使用Java SE5所特有的注解来抑制警告信息。注解以“@”符号开头，可以接受参数，这里的@SuppressWarnings注解极其参数表示只有有关“不受检查的异常”的警告信息应该被抑制
+> - 尖括号括起来的**类型参数**指定了这个容器实例可以保存的类型（可以有多个）。
+> - 通过使用泛型就可以在编译期防止将错误类型的对象放置在容器中。
+#### 2) 保存对象
+> - Collection 一个独立元素的序列，这些元素都服从一条或者多条规则
+>> - List 按照插入的顺序保存元素
+>> - Set 不能有重复的元素
+>> - Queue 按照排队规则来确定对象产生的顺序（通常与它们被插入的顺序相同）
+> - Map 一组成对的“键值对”对象，允许使用键来查找值。这种关联关系称为“字典”
+#### 3) 添加一组元素
+> - 普通的增加元素只需要collection.add()即可
+> - map的话用put()方法
+> - 所有的Collectons类型都包含该方法：addAll()，接受一个Collection对象，以及一个数组或者是一个用逗号分隔的列表，将元素添加到Collections中。该方法只接受另一个Collection对象作为参数
+                
+                Collection<Integer> collection = new ArrayList<Integer>(Arrays.asList(1,2,3,4,5));
+                //实例的方法 因为不包含对象作为参数，所以运行起来比对象的方法要快
+                collection.addAll(Arrays.asList({6, 7, 8, 9})); 
+                Collections.addAll(collection, 11, 12, 13, 14, 15); // 对象的方法
+> - Arrays.asList()方法接受一个数组或是一个用逗号分隔的元素列表（使用可变参数），并转换为一个List对象。
+                
+                List<Integer> list = Arrays.asList(16, 17, 18, 19, 20);
+#### 4) List
+> - List承诺可以将元素维护在特定的序列中。List接口在Collection的基础上添加了大量的方法，使得可以在List的中间插入和移除元素
+> - 两种基本类型的List
+>> - ArrayList，擅长于随机访问元素，但是在List中间插入和移除元素时比较慢
+>> - LinkedList，它通过代价较低的在List中间进行的插入和删除操作，提供了优化的顺序访问。但是在随机访问方面相对比较慢
+#### 5) 迭代器
+> - 迭代器是一个对象，也是一种设计模式。它的工作是遍历并选择序列中的对象。而客户端程序员不必要知道该序列底层的结构。
+> - Java的Iterator只能单向移动
+> - 迭代器其实也是一个容器，也需要在后面添加泛型
+                
+                Iterator<Pet> it = pets.iterator
+> - 可以说，迭代器统一了对容器的访问方式
+> - 方法
+>> - 使用方法iterator()要求容器返回一个Iterator，Iterator将准备好返回序列的第一个元素。
+>> - 使用next()获得序列中的下一个元素
+>> - 使用hasNext()检查序列中是否还有元素
+>> - 使用remove()将迭代器新近返回的元素删除
+> - ListIterator是一个更加强大的Iterator的子类型
+>> - 除了可以向前移动，还可以双向移动。
+>> - 还可以产生相对于迭代器在列表中指向当前位置的前一个和后一个的索引
+>> - 并且可以使用set()方法替换它访问过的最后一个元素
+>> - 可以通过调用listIterator()要求容器返回一个指向List开始处的ListIterator
+>> - 也可以通过调用listIterator(n)要求容器返回一个指向List列表索引为n的ListIterator
+>> - 但是只能用于各种List类的访问。
+>>>>>> ![图7-7 iterator迭代器](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-6%20%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB%E5%8C%96%E7%AE%80%E5%90%8E.png?raw=true)
+#### 6) LinkedList
+> - LinkedList也像ArrayList那样基本实现了List接口
+> - 在执行某些操作（在List的中间插入和移除）时比ArrayList更高效
+> - 能够实现栈的所有功能的方法
+> - 基本方法
+>> - removeFirst()
+>> - removeLast()
+>> - getFirst()
+>> - addFirst()
+>> - addLast()
+>> - peek() // 移除并返回第一个元素
+>> - pop() // 移除第一个元素并返回列表的头
+>> - poll()
+#### 7) Stack
+> - 先进后出，用LinkedList来实现
+> - 因为LinkedList能够实现栈的所有功能的方法
+> - > - 其实是存在java.util.Stack这个公共类，但是因为使用LinkedList可以产生更好的Stack，因此一般都是自己创建
+>>>>>> ![图7-8 使用LinkedList实现stack](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-6%20%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB%E5%8C%96%E7%AE%80%E5%90%8E.png?raw=true)
+#### 8) Set
+> - 不保存重复的元素
+> - 具有与Collection完全一样的接口，因此没有额外的功能，其实Set就是Collection，只是行为不同（继承和多态的典型应用）
+> - 最常被使用的是测试归属性，也就是说容易询问某个对象是否在某个Set中
+> - 实现这个接口的常用类有HashSet,TreeSet或者是LinkedHashSet
+> - 排列的顺序没有任何规律可循，这是因为处于速度的考虑，而且不同大的实现类的元素存储方式不同
+>> - HashSet使用了散列函数
+>> - TreeSet使用了红黑树，保持元素的排序状态
+>> - LinkedHashList也是使用了散列，但是 看起来像是使用了链表来维护元素的插入顺序。
+> - 一般使用contains()测试Set的归属性
+#### 9) Map
+> - Map<Person, List<Pet>>
+> - 实现类: HashMap, treeMap
+> - HashMap用于快速访问，treeMap
+> - containsKey()和containsValue()来测试Map
+> - treeMap
+> - put()
+> - get()
+>>>>>> ![图7-9 map的使用](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-6%20%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB%E5%8C%96%E7%AE%80%E5%90%8E.png?raw=true)
+#### 10) Queue
+> - 队列
+> - offer()方法在允许的情况下，将一个元素插入队尾，或者返回false。
+> - peek()和element()都将在不溢出的情况下返回队头，当队列为空的时候，peek()返回null，但是element()则抛出NoSuchElementException异常
+> - poll()和remove()方法将一处并返回队头，当队列为空的时候， poll()返回null，但是remove()则抛出NoSuchElementException异常
+> - LinkedList提供了方法支持队列的行为，并且它实现了Queue接口
+> - PriorityQueue优先级队列，声明下一个弹出的元素是最需要的元素
+#### 11) Foreach
+> - 主要用于数组，但是也可以用于Collection对象
+                
+                for(String s: cs) {
+                    // doSomething
+                }
+>>>>>> ![图7-10 容器的分类图](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-6%20%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB%E5%8C%96%E7%AE%80%E5%90%8E.png?raw=true)
 > - 
 > - 
