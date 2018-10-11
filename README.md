@@ -33,7 +33,7 @@
 ## [八、内部类](#8)
 ### [8.1 介绍](#8.1)
 ### [8.2 为什么需要内部类](#8.2)
-## [九、持有对象](#8)
+## [九、持有对象](#9)
 ### [9.1 介绍](#9.1)
 ## [十、通过异常处理错误](#10)
 ### [10.1 介绍](#10.1)
@@ -338,7 +338,10 @@
 <h2 id='9'>九、持有对象</h2>
 <h3 id='9.1'>9.1 持有对象</h3>  
         
-#### 1) 介绍
+
+>>>>>> ![图7-10 容器的分类图](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-10%20%E5%AE%B9%E5%99%A8%E7%9A%84%E5%88%86%E7%B1%BB%E5%9B%BE.png?raw=true)
+        
+#### 1) 泛型
 > - 应用于容器后，表示该容器可容纳的子元素类型，并用尖括号括起来
                 
                 ArrayList<Apple> apples = new ArrayList<Apple>();
@@ -387,7 +390,7 @@
 >> - 可以通过调用listIterator()要求容器返回一个指向List开始处的ListIterator
 >> - 也可以通过调用listIterator(n)要求容器返回一个指向List列表索引为n的ListIterator
 >> - 但是只能用于各种List类的访问。
->>>>>> ![图7-7 iterator迭代器](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-6%20%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB%E5%8C%96%E7%AE%80%E5%90%8E.png?raw=true)
+>>>>>> ![图7-7 iterator迭代器](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-7%20iterator%E8%BF%AD%E4%BB%A3%E5%99%A8.png?raw=true)
 #### 6) LinkedList
 > - LinkedList也像ArrayList那样基本实现了List接口
 > - 在执行某些操作（在List的中间插入和移除）时比ArrayList更高效
@@ -405,7 +408,7 @@
 > - 先进后出，用LinkedList来实现
 > - 因为LinkedList能够实现栈的所有功能的方法
 > - > - 其实是存在java.util.Stack这个公共类，但是因为使用LinkedList可以产生更好的Stack，因此一般都是自己创建
->>>>>> ![图7-8 使用LinkedList实现stack](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-6%20%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB%E5%8C%96%E7%AE%80%E5%90%8E.png?raw=true)
+>>>>>> ![图7-8 使用LinkedList实现stack](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-8%20%E4%BD%BF%E7%94%A8LinkedList%E5%AE%9E%E7%8E%B0stack.png?raw=true)
 #### 8) Set
 > - 不保存重复的元素
 > - 具有与Collection完全一样的接口，因此没有额外的功能，其实Set就是Collection，只是行为不同（继承和多态的典型应用）
@@ -424,7 +427,7 @@
 > - treeMap
 > - put()
 > - get()
->>>>>> ![图7-9 map的使用](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-6%20%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB%E5%8C%96%E7%AE%80%E5%90%8E.png?raw=true)
+>>>>>> ![图7-9 map的使用](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-9%20map%E7%9A%84%E4%BD%BF%E7%94%A8.png?raw=true)
 #### 10) Queue
 > - 队列
 > - offer()方法在允许的情况下，将一个元素插入队尾，或者返回false。
@@ -438,6 +441,19 @@
                 for(String s: cs) {
                     // doSomething
                 }
->>>>>> ![图7-10 容器的分类图](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-6%20%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB%E5%8C%96%E7%AE%80%E5%90%8E.png?raw=true)
-> - 
+
+
+        
+        
+------      
+        
+<h2 id='10'>十、通过异常处理错误</h2>
+<h3 id='10.1'>10.1 概念</h3>  
+        
+#### 1) 基本理念
+> - “结构不佳的代码不能运行”
+> - 对于异常处理的实现最早可以追溯到20世纪60年代的操作系统，设甚至于BASIC语言中的on error goto语句
+> - C++的异常处理机制是基于Ada，Java中的异常处理则建立在C++的基础之上
+> - 一个明显的好处是，往往可以降低错误处理代码的复杂度，如果不适用异常，那就必须检查特定的错误，并在程序中的许多地方去处理它。而如果使用异常，则就不必在方法调用处进行检查。因为异常机制将把凭证能够捕获这个错误。。并且，只需要在一个地方处理错误————即所谓的异常处理程序中。
+#### 2) 基本异常
 > - 
