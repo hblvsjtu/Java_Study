@@ -501,11 +501,11 @@
                 
                 String getMessage()
                 String getLocalizedMessage()
->>>>>> ![图10-1 容器的分类图](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-9%20map%E7%9A%84%E4%BD%BF%E7%94%A8.png?raw=true)
+>>>>>> ![图10-1 容器的分类图](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE10-1%20Exception%E7%9A%84%E4%BD%BF%E7%94%A8.png?raw=true)
 #### 5) 栈轨迹
 > - printStackTrace()方法所提供的信息可以通过getStackTrace()方法来直接访问。这个方法返回一个由栈轨迹中元素所构成的数组。每个元素都表示栈中的一帧。元素0是栈顶元素。并且是调用序列中最后一个方法调用，数组中的最后一个元素是和栈底是调用序列中的第一个方法调用
 > - 打印的时候是从最内层开始到最外层，这就说明是从调用序列中的第一个元素开始打印，第一个元素也是方法的最内层调用，最后一个元素是最外层的调用
->>>>>> ![图10-1 容器的分类图](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-9%20map%E7%9A%84%E4%BD%BF%E7%94%A8.png?raw=true)
+>>>>>> ![图10-2 printStackTrack](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE10-2%20printStackTrack.png?raw=true)
 #### 6) 重新抛出异常
 > - 直接在catch中添加throw e
 > - 但是重新抛出后printStackTrace()显示的是原来异常抛出点的调用栈信息，而非重新抛出点的信息，要更新的话需要调用fillLinStackTrace()方法。
@@ -520,5 +520,97 @@
 <h2 id='11'>十一、字符串</h2>
 <h3 id='11.1'>11.1 概念</h3>  
         
-#### 1) 基本理念
-> - 
+#### 1) 不可变的String
+> - 不可变，任何一个看起来修改String值的方法，实际上都是创建了一个全新的String对象，以包含修改后的字符串内容，而最初的String对象则丝毫未动。
+> - 每当把String对象作为方法的参数的时候，实际上传递的是引用的拷贝
+> - 具有只读属性
+#### 2) 重载“+” 与 StringBuilder
+> - 重载的意思是一个操作符应用于特定的类的时候，被赋予了特殊的意义。
+> - 用于String的“+”与“+=”是Java中仅有的两个重载过的操作符，而Java并不允许程序员重载任何的操作符
+> - JDK自带的javap可以用来反编译代码
+        
+<h3 id='11.2'>11.2 String上的操作</h3>  
+        
+#### 1) 无意识的递归
+> - Java中每个类从根本上都是继承自Object，因此都会有自己的toString()方法，程序员可以覆写这些方法
+#### 2) 常用的方法
+> - length()
+> - charAt() // 返回索引位置上的char
+> - contentEquals() equalsIgnoreCase // 比较String内容
+> - reginMatcher() // 参数是该Sting的索引偏移量，另一个String极其索引偏移量，要比较的长度，返回Boolean结果
+> - concat()
+> - replace()
+> - indexOf()
+> - trim()
+> - valueOf() // 返回一个表示参数内容的String
+> - 其实从返回值可以看出，当要改变字符串内容的时候，都会返回一个新的对象
+        
+<h3 id='11.3'>11.3 格式化输出</h3>  
+        
+#### 1) System.out.format()
+> - 用于PrintStream和PrintWriter对象；
+> - format()跟printf()等价
+                
+                System.out.format("Row 1: [%d %f]\n", x, y);
+                System.out.printf("Row 1: [%d %f]\n", x, y);
+#### 2) Formatter类
+> - 在Java中，所有新的格式化功能都由java.util.Formatter类处理
+                                
+                PrintStream outAlias = System.out;
+                private Formatter f = new Formatter(outAlias);
+                f.format("%s The Turtle is at (%d, %d)\n", name, x, y);
+> - 格式化说明符
+                
+                // width: 一个域的最小尺寸
+                // precision: 应用于String时，表示打印String时输出的字符的最大数量；应用于浮点数的时候，表示小数部分要显示出来的位数（默认是6位小数），但是无法应用于整数，否则会触发异常
+                // 默认是右对齐，不过可以通过使用“-”标志来改变方向
+                %[argument_index$][flags][width][.precision]conversion
+>>>>>> ![图11-1 Formatter_Sample](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE10-2%20printStackTrack.png?raw=true)
+> - 常用的类型转换字符
+>> - d 整数型（十进制）
+>> - c Unicode字符
+>> - b boolean值
+>> - s String 
+>> - f float(十进制)
+>> - e 浮点数（科学计数）
+>> - x 整数（十六进制）
+>> - h 散列码（十六进制）
+>> - % 字符“%”
+> - 使用类型转换字符时需要注意合法性。Boolean只要参数不是null，都会返回true，否则返回false
+#### 2) String.format()
+> - 参考了C中的sprintf()的方法，已生成格式化的String对象。
+> - 它是一个static方法，接受与Formatter.format()方法一样的参数，但是返回的是一个String对象
+> - 内部的话也是创建一个Formatter对象，然后讲参数传给它。但是使用String.format()的话就会便捷很多
+        
+<h3 id='11.4'>11.4 正则表达式</h3>  
+        
+#### 1) 使用方法
+> - 内建功能进行判断 String.matches("自己的正则表达式");
+                
+                “1234”.matches("-?\\d+");
+> - split()，“将字符串从正则表达式匹配的地方切开”，返回剩余的字符串。他还有一个重载的版本，它允许你限制字符串分隔的次数
+                
+
+                "nihao1234".split("\d+"); // "nihao"
+
+        
+> - replaceFirst("正则表达式", "用于替换的词") replaceAll("正则表达式", "用于替换的词")替换
+>>>>>> ![图11-2 正则表达式](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE10-2%20printStackTrack.png?raw=true)
+#### 2) 量词
+> - 描述一个模式吸收输入文本的方式
+> - 贪婪型  * + {n,} 默认情况是贪婪模式匹配
+> - 勉强型（或者叫懒惰型，非贪婪型）?跟在 * + {n,} 等的后面时，表示非贪婪模式
+> - 占有型 只有Java语言独有，贪婪型在尽可能匹配字符串的时候加入匹配不成功会进行回溯，但是占有型却相反，不会进行回溯，所以有时候会出现贪婪型匹配成功，但是占有型一个都匹配不成功的情况出现 [java学习笔记001之正则表达式贪婪型、勉强型和占有型p299](https://blog.csdn.net/mushao999/article/details/46331145)
+>>>>>> ![图11-3 量词的分类](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE10-2%20printStackTrack.png?raw=true)
+#### 3) Pattern和Matcher
+> - 可以自定义构造一个功能强大的正则表达式对象，只需要导入java.util.regex包；
+> - 然后使用static Pattern.compile()方法来编译你的正则表达式，根据String类型的正则表达式生成一个Pattern对象
+                
+                import java.util.regex.*;
+                Pattern p = Pattern.compile(arg);
+                Matcher m = p.matcher("匹配的字符串");
+> - Matcher.matches()/ Matcher.lookingAt()/ Matcher.find() 
+Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当匹配到时返回true,没匹配到则返回false  [gdwkong的博客 java Pattern和Matcher详解](https://www.cnblogs.com/gdwkong/articles/7782331.html)
+#### 4) 扫描输入
+> - java.io
+> - StringRreader将String转化为可读大的流对象，然后用这个对象来构造BufferReader对象。因为我们要使用BufferReader的readLine()方法。
