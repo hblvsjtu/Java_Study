@@ -605,12 +605,139 @@
 #### 3) Pattern和Matcher
 > - 可以自定义构造一个功能强大的正则表达式对象，只需要导入java.util.regex包；
 > - 然后使用static Pattern.compile()方法来编译你的正则表达式，根据String类型的正则表达式生成一个Pattern对象
+> - Pattern.compile()接受两个参数，第一个参数是正则表达式，第二个参数是flag，常用的flag有如下几个
+>>>>>> ![图11-4 常用的正则表达式flag1](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE10-2%20printStackTrack.png?raw=true)
+>>>>>> ![图11-4 常用的正则表达式flag2](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE10-2%20printStackTrack.png?raw=true)
+> - Pattern.compile().split() // 分隔
+> - Pattern.compile().replaceAll() // 替换全部
+> - Pattern.compile().replaceFirst() // 替换第一个匹配组
+> - > - Pattern.compile().appendReplacement(StringBuffer sbuf, String replacement) // 执行渐进式替换
                 
-                import java.util.regex.*;
-                Pattern p = Pattern.compile(arg);
-                Matcher m = p.matcher("匹配的字符串");
-> - Matcher.matches()/ Matcher.lookingAt()/ Matcher.find() 
+                /**
+                 * 
+                 */
+                package com.sjtu.javaStudy;
+
+                import java.util.regex.Matcher;
+                import java.util.regex.Pattern;
+
+                /**
+                 * @author hblvs
+                 *
+                 */
+                public class javaTest {
+
+                    /**
+                     * @param args
+                     */
+                    public static void main(String[] args) {
+                        // TODO Auto-generated method stub
+                         String regex = "\\b[^A-W && ^\\S].+?\\b";
+                         String input = "123 lvhongbin Apple Banana pear Orange";
+                         Pattern p = Pattern.compile(regex);
+                         Matcher m = p.matcher(input);
+                         while(m.find()) {
+                             System.out.println(m.group() + m.start() + m.end());
+                         }
+                    }
+                }
+
+                // output
+                12303
+                lvhongbin413
+                pear2731
+> - Matcher.matches()/ Matcher.lookingAt()/ Matcher.find()
+> - Matcher.matches() // 需要整个输入都匹配才成功
+> - Matcher.find() // 参数可以输入index的位置，表示从那往后开始匹配
+> - Matcher.lookingAt() // 只要输入的第一部分匹配成功即可
+> - Matcher.lookingAt() // 将现有的Matcher对象应用于一个新的字符序列
+
 Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当匹配到时返回true,没匹配到则返回false  [gdwkong的博客 java Pattern和Matcher详解](https://www.cnblogs.com/gdwkong/articles/7782331.html)
+> - Pattern标记
 #### 4) 扫描输入
 > - java.io
 > - StringRreader将String转化为可读大的流对象，然后用这个对象来构造BufferReader对象。因为我们要使用BufferReader的readLine()方法。
+> - 还有一个功能更加强大的Scanner类，使用BufferReader作为输入，应该是做了一层封装，方便直接把扫描到的内容转换成所需要的类型
+> - 实际上Scanner类可以接收任意输入类型作为参数，包括Readable对象，File对象，InputStream和String
+> - Scanner类还可以配合pattern正则表达式进行扫描
+> - 需要注意的是StringReader用过之后需要重新新建才能把光标复位
+> - 
+                
+                /**
+                 * 
+                 */
+                package com.sjtu.javaStudy;
+                import java.io.BufferedReader;
+                import java.io.StringReader;
+                import java.util.Scanner;
+                import java.util.regex.Matcher;
+                import java.util.regex.Pattern;
+
+                /**
+                 * @author hblvs
+                 *
+                 */
+                public class javaTest {
+                    
+                    private static BufferedReader buffer(String str) {
+                        BufferedReader bf = new BufferedReader(new StringReader(str));
+                        return bf;
+                    }
+
+                    /**
+                     * @param args
+                     */
+                    public static void main(String[] args) {
+                        // TODO Auto-generated method stub
+                         String regex = "\\b[^A-W && ^\\S].+?\\b";
+                         String input = "123 lvhongbin Apple Banana pear Orange";
+                         Pattern p = Pattern.compile(regex);
+                         Matcher m = p.matcher(input);
+                         while(m.find()) {
+                             System.out.println(m.group() + m.start() + m.end());
+                         }
+                         String userInfo = "lvhongbin\n25\n0.809015";
+                         BufferedReader bf = buffer(userInfo);
+                         try {
+                             boolean isEnd = false;
+                             while(!isEnd) {
+                                 String myName = bf.readLine();
+                                 if(myName != null) {
+                                     System.out.println(myName); 
+                                 }else {
+                                     isEnd = true;
+                                 }
+                             }
+                         }catch (Exception e) {
+                             e.printStackTrace();
+                         }
+                         @SuppressWarnings("resource")
+                         Scanner scanner = new Scanner(userInfo);
+                         String name = scanner.nextLine();
+                         int age = scanner.nextInt();
+                         double favorite = scanner.nextDouble();
+                         System.out.format("Hi, %s\n", name);
+                         System.out.format("In 5 years, you will be %d.\n", age + 5);
+                         System.out.format("My favorite number is %f.\n", favorite / 2);
+                         
+                         // Scanner配合正则表达式
+                         @SuppressWarnings("resource")
+                         Scanner scannerRegEx = new Scanner(userInfo);
+                         while(scannerRegEx.hasNext("[a-z]+")) {
+                             scannerRegEx.next(".+");
+                             System.out.println(scannerRegEx.match().group(0));
+                         }
+                    }
+                }
+
+                // output 
+                12303
+                lvhongbin413
+                pear2731
+                lvhongbin
+                25
+                0.809015
+                Hi, lvhongbin
+                In 5 years, you will be 30.
+                My favorite number is 0.404508.
+                lvhongbin
