@@ -40,14 +40,34 @@
 ### [10.2 捕获异常与创建自定义异常](#10.2)
 ## [十一、字符串](#11)
 ### [11.1 概念](#11.1)
+### [11.2 String上的操作](#11.2)
+### [11.3 格式化输出](#11.3)
+### [11.4 正则表达式](#11.4)
+## [十二、类型信息与注解](#12)
+### [12.1 类型信息](#12.1)
+### [12.2 Class对象](#12.2)
+### [12.3 反射](#12.3)
+### [12.4 空对象](#12.4)
+
         
 ------      
         
 <h2 id='1'>一、简介</h2>
 <h3 id='1.1'>1.1 对象导论</h3>  
         
-#### 1) 总体思路
-> - 模版
+#### 1) Java程序执行与运行环境
+>>>>>> ![Java程序执行与运行环境](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE6-1%20%E6%9E%84%E9%80%A0%E5%99%A8%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F%E7%9A%84%E5%9B%B0%E6%83%91.png?raw=true)
+#### 2) UML图
+>>>>>> ![图1-2 UML图](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE6-1%20%E6%9E%84%E9%80%A0%E5%99%A8%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F%E7%9A%84%E5%9B%B0%E6%83%91.png?raw=true)
+#### 3) 复用的具体体现
+>>>>>> ![图1-3 复用的具体体现1](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE6-1%20%E6%9E%84%E9%80%A0%E5%99%A8%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F%E7%9A%84%E5%9B%B0%E6%83%91.png?raw=true)
+>>>>>> ![图1-3 复用的具体体现2](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE6-1%20%E6%9E%84%E9%80%A0%E5%99%A8%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F%E7%9A%84%E5%9B%B0%E6%83%91.png?raw=true)
+#### 4) 对象的创建与生命周期
+>>>>>> ![图1-4 对象的创建与生命周期](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE6-1%20%E6%9E%84%E9%80%A0%E5%99%A8%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F%E7%9A%84%E5%9B%B0%E6%83%91.png?raw=true)
+#### 5) 数据类型
+>>>>>> ![图1-5 数据类型](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE6-1%20%E6%9E%84%E9%80%A0%E5%99%A8%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F%E7%9A%84%E5%9B%B0%E6%83%91.png?raw=true)
+#### 6) 包装类
+>>>>>> ![图1-6 包装类](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE6-1%20%E6%9E%84%E9%80%A0%E5%99%A8%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F%E7%9A%84%E5%9B%B0%E6%83%91.png?raw=true)
         
 
 ------      
@@ -56,12 +76,9 @@
 <h3 id='2.1'>2.1 操作符</h3>  
         
 #### 1) 总体思路
-> - 模版
+>>>>>> ![图2-1 操作符](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE6-1%20%E6%9E%84%E9%80%A0%E5%99%A8%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F%E7%9A%84%E5%9B%B0%E6%83%91.png?raw=true)
         
-<h3 id='2.2'>2.2 流程控制</h3>  
-        
-#### 1) 总体思路
-> - 模版
+
                 
         
 ------      
@@ -70,12 +87,12 @@
 <h3 id='3.1'>3.1 初始化</h3>  
         
 #### 1) 总体思路
-> - 模版
+>>>>>> ![图3-1 初始化与清理](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE6-1%20%E6%9E%84%E9%80%A0%E5%99%A8%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F%E7%9A%84%E5%9B%B0%E6%83%91.png?raw=true)
+>>>>>> ![图3-2 初始化与清理](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE6-1%20%E6%9E%84%E9%80%A0%E5%99%A8%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F%E7%9A%84%E5%9B%B0%E6%83%91.png?raw=true)
+>>>>>> ![图3-3 初始化与清理](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE6-1%20%E6%9E%84%E9%80%A0%E5%99%A8%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F%E7%9A%84%E5%9B%B0%E6%83%91.png?raw=true)
+>>>>>> ![图3-4 初始化与清理](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE6-1%20%E6%9E%84%E9%80%A0%E5%99%A8%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F%E7%9A%84%E5%9B%B0%E6%83%91.png?raw=true)
         
-<h3 id='3.2'>3.2 清理</h3>  
-        
-#### 1) 总体思路
-> - 模版
+
         
         
 ------      
@@ -565,7 +582,7 @@
                 // precision: 应用于String时，表示打印String时输出的字符的最大数量；应用于浮点数的时候，表示小数部分要显示出来的位数（默认是6位小数），但是无法应用于整数，否则会触发异常
                 // 默认是右对齐，不过可以通过使用“-”标志来改变方向
                 %[argument_index$][flags][width][.precision]conversion
->>>>>> ![图11-1 Formatter_Sample](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE10-2%20printStackTrack.png?raw=true)
+>>>>>> ![图11-1 Formatter_Sample](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE11-1%20Formatter_Sample.png?raw=true)
 > - 常用的类型转换字符
 >> - d 整数型（十进制）
 >> - c Unicode字符
@@ -595,19 +612,19 @@
 
         
 > - replaceFirst("正则表达式", "用于替换的词") replaceAll("正则表达式", "用于替换的词")替换
->>>>>> ![图11-2 正则表达式](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE10-2%20printStackTrack.png?raw=true)
+>>>>>> ![图11-2 正则表达式](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE11-2%20%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F.png?raw=true)
 #### 2) 量词
 > - 描述一个模式吸收输入文本的方式
 > - 贪婪型  * + {n,} 默认情况是贪婪模式匹配
 > - 勉强型（或者叫懒惰型，非贪婪型）?跟在 * + {n,} 等的后面时，表示非贪婪模式
 > - 占有型 只有Java语言独有，贪婪型在尽可能匹配字符串的时候加入匹配不成功会进行回溯，但是占有型却相反，不会进行回溯，所以有时候会出现贪婪型匹配成功，但是占有型一个都匹配不成功的情况出现 [java学习笔记001之正则表达式贪婪型、勉强型和占有型p299](https://blog.csdn.net/mushao999/article/details/46331145)
->>>>>> ![图11-3 量词的分类](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE10-2%20printStackTrack.png?raw=true)
+>>>>>> ![图11-3 量词的分类](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE11-3%20%E9%87%8F%E8%AF%8D%E7%9A%84%E5%88%86%E7%B1%BB.png?raw=true)
 #### 3) Pattern和Matcher
 > - 可以自定义构造一个功能强大的正则表达式对象，只需要导入java.util.regex包；
 > - 然后使用static Pattern.compile()方法来编译你的正则表达式，根据String类型的正则表达式生成一个Pattern对象
 > - Pattern.compile()接受两个参数，第一个参数是正则表达式，第二个参数是flag，常用的flag有如下几个
->>>>>> ![图11-4 常用的正则表达式flag1](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE10-2%20printStackTrack.png?raw=true)
->>>>>> ![图11-4 常用的正则表达式flag2](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE10-2%20printStackTrack.png?raw=true)
+>>>>>> ![图11-4 常用的正则表达式flag1](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE11-4%20%E5%B8%B8%E7%94%A8%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8Fflag1.png?raw=true)
+>>>>>> ![图11-4 常用的正则表达式flag2](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE11-4%20%E5%B8%B8%E7%94%A8%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8Fflag2.png?raw=true)
 > - Pattern.compile().split() // 分隔
 > - Pattern.compile().replaceAll() // 替换全部
 > - Pattern.compile().replaceFirst() // 替换第一个匹配组
@@ -741,3 +758,202 @@ Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当�
                 In 5 years, you will be 30.
                 My favorite number is 0.404508.
                 lvhongbin
+
+        
+        
+------      
+        
+<h2 id='12'>十二、类型信息与注解、字符串</h2>
+<h3 id='12.1'>12.1 类型信息</h3>  
+        
+#### 1) 概念
+> - 运行时的类型信息使得你可以在程序运行时发现和使用类型信息
+> - Java是如何让我们在运行时识别对象和类的信息：
+>> - 传统的RTTI 运行时类型识别(RTTI, Run-Time Type Identification), 假定我们在编译的时就已经知道所有的类型
+>> - 反射机制 允许在运行时发现和使用类的信息
+#### 2) 为什么需要RTTI
+> - 多态与类型转换
+> - 代表对象类型的Class对象
+> - 关键字instanceof 动态测试对象的途径 与isInstance()完全一样，但是这两个东西跟==或者equal()不同，后面两个不能测试父类，只能测试当前类，不考虑继承
+                
+                if(x instanceof Dog) {
+                    ((Dog)x).bark();
+                }
+
+        
+<h3 id='12.2'>12.2 Class对象</h3>  
+        
+#### 1) 概念
+> - 每一个类都有一个Class对象，表示的是该类的确切类型
+> - 每当编写并且编译一个新类，就会产生一个Class对象，更恰当的说，是被保存在一个同名的.class文件中
+> - 它包含了与类有关的信息，Java需要使用Class对象来执行其RTTI
+> - JVM使用“类加载器”的子系统来运行这个类
+> - 类是被动态的按需加载到JVM中，什么叫按需加载呢？就是第一次使用的时候，比如创建第一个对类的静态成员的引用，或者使用new创建对象（这也证明了构造器也是类的静态方法）
+> - 类被加载的时候，将会被接受验证，以确保没有被破坏，并且不包含不良的Java代码
+#### 2) 取得Class对象引用的方法
+> - Class.forName
+                
+                /* 取得Class对象引用的一种方法
+                 * 同时如果该类没有被加载的话或被类加载器加载
+                 * 如果找不到你要加载的类，他可能会抛出异常ClassNotFoundException
+                 */
+                Class.forName(“ClassYouWant”); 
+> - 类字面量 这样做不仅简单，而且更加安全没因为它在编译时就会收到检查，因此不需要置于try语句中。不仅可以应用于普通的类，也可以应用于接口，数组以及基本数据类型。不过有趣的是，使用“.class”的方法来创建对Class对象的引用时，并不会自动的初始化该Class对象
+                
+                FancyToy.class
+>>>>>> ![图12-1 字面量与包装类的类型引用](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE11-4%20%E5%B8%B8%E7%94%A8%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8Fflag2.png?raw=true)
+> - 只要你想在运行时使用类型信息，就必须先要获得对恰当的Class对象的引用， Class.forName便提供了便利
+                
+                /**
+                 * 
+                 */
+                package com.sjtu.javaStudy;
+
+                /**
+                 * @author hblvs
+                 *
+                 */
+                public class JavaTest {
+                    
+                    /**
+                     * @param args
+                     */
+                    public static void main(String[] args) {
+                        // TODO Auto-generated method stub
+                         
+                         int[] myArray = {1, 2, 3, 4};
+                         try {
+                            @SuppressWarnings("rawtypes")
+                            // 类名必须要加上包名
+                             Class c = Class.forName("com.sjtu.javaStudy.LocalClass");
+                             System.out.println("after Class.forName");
+                             System.out.println(c);
+                             System.out.println(myArray.getClass());
+                             Class intClass = int.class;
+                             System.out.println("after int.class");
+                             Class integerTYPE = Integer.TYPE;
+                             System.out.println("after Integer.TYPE");
+                             System.out.println(intClass);
+                             System.out.println(integerTYPE);
+                         } catch (ClassNotFoundException e) {
+                             // TODO Auto-generated catch block
+                             e.printStackTrace();
+                         }
+                    }
+                }
+
+                class LocalClass {
+                    static {
+                        System.out.println("I am LocalClass");
+                    }
+                 };
+                
+                // output
+                I am LocalClass
+                after Class.forName
+                class com.sjtu.javaStudy.LocalClass
+                class [I
+                after int.class
+                after Integer.TYPE
+                int
+                int
+#### 3) 使用类而做的准备
+> - 加载 由类加载器执行，查找字节码并创建Class对象
+> - 链接 验证类中的字节码，为静态域分配空间
+> - 初始化 初始化被延迟到对静态方法（构造器隐式的是静态的）或者是非常熟静态域进行首次引用时才执行
+#### 4) 泛化的Class对象 
+> - Class<?>即便与Class等价，但由于Class，因为它表示并非碰巧或者由于疏忽而使用了一个非具体的类引用，而是用来非具体的版本。添加泛型仅仅是为了提供编译期的类型检查。因为即便你操作有误，也能立即发现
+                
+                // 
+                Class<?> intClass = int.class 
+#### 5) 新的转型语法
+> - cast()
+                
+                House.class.cast(otherClass);1
+
+       
+<h3 id='12.3'>12.3 反射</h3>  
+        
+#### 1) 特点
+> - 在编译时不必已知某个对象的确切类型，便能在运行时获取类的信息
+> - java.lang.reflect类库，包含了
+>> - Field类　用get()和set()方法读取和修改Field关联的字段
+>> - Method类 用invoke()方法调用与Method对象关联的方法
+>> - Constructor类
+> - 以上三个类都实现了Member接口，这些类型都是在JVM在运行时创建
+#### 2) 与RTTI的区别
+> - 对RTTI来说，编译器在编译时打开和检查.class文件，而对于反射机制而言，.class文件在编译的时候不可获取，所以只能在运行时打开和检查.class文件
+#### 3) 类方法提取器
+> - Class方法的getMethods()和getConstructors()方法分别返回Method对象的数组和Constructor独对象的数组
+> - 主要用于查找类的方法不看JDK文档（大雾？）
+                
+                /**
+                 * 
+                 */
+                package com.sjtu.javaStudy;
+                import java.io.BufferedReader;
+                import java.io.StringReader;
+                import java.util.Scanner;
+                import java.util.regex.Matcher;
+                import java.util.regex.Pattern;
+
+                import java.lang.reflect.*;
+
+                /**
+                 * @author hblvs
+                 *
+                 */
+                public class JavaTest {
+                    
+                    publc static BufferedReader buffer(String str) {
+                        BufferedReader bf = new BufferedReader(new StringReader(str));
+                        return bf;
+                    }
+
+
+                    /**
+                     * @param args
+                     */
+                    public static void main(String[] args) {
+                        // TODO Auto-generated method stub
+                             @SuppressWarnings("rawtypes")
+                             Class javatest = Class.forName("com.sjtu.javaStudy.JavaTest");
+                             Method[] method = javatest.getMethods();
+                             for(Method m1 : method) {
+                                 System.out.println(m1);
+                             }
+                             @SuppressWarnings("rawtypes")
+                             Constructor[] constructor = javatest.getConstructors();
+                             for(@SuppressWarnings("rawtypes") Constructor c1 : constructor) {
+                                 System.out.println(c1);
+                             }
+                         } catch (ClassNotFoundException e) {
+                             // TODO Auto-generated catch block
+                             e.printStackTrace();
+                         } catch (SecurityException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                
+                // Output
+                public static void com.sjtu.javaStudy.JavaTest.main(java.lang.String[])
+                public static java.io.BufferedReader com.sjtu.javaStudy.JavaTest.buffer(java.lang.String)
+                public final void java.lang.Object.wait() throws java.lang.InterruptedException
+                public final void java.lang.Object.wait(long,int) throws java.lang.InterruptedException
+                public final native void java.lang.Object.wait(long) throws java.lang.InterruptedException
+                public boolean java.lang.Object.equals(java.lang.Object)
+                public java.lang.String java.lang.Object.toString()
+                public native int java.lang.Object.hashCode()
+                public final native java.lang.Class java.lang.Object.getClass()
+                public final native void java.lang.Object.notify()
+                public final native void java.lang.Object.notifyAll()
+                public com.sjtu.javaStudy.JavaTest()
+
+       
+<h3 id='12.4'>12.4 空对象</h3>  
+        
+#### 1) 特点
+> - 可以接受传递给他的所以代表的对象的消息，但是实际返回表示为实际上并不存在任何真实对象的值
+> - 可以想象为空，但以后会赋值
