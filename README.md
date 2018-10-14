@@ -48,7 +48,7 @@
 ### [12.2 Class对象](#12.2)
 ### [12.3 反射](#12.3)
 ### [12.4 空对象](#12.4)
-
+### [12.5 注解](#12.5)
         
 ------      
         
@@ -957,3 +957,35 @@ Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当�
 #### 1) 特点
 > - 可以接受传递给他的所以代表的对象的消息，但是实际返回表示为实际上并不存在任何真实对象的值
 > - 可以想象为空，但以后会赋值
+    
+<h3 id='12.5'>12.5 注解</h3>  
+        
+#### 1) 介绍
+> - 也叫做元数据，为代码添加信息提供一种形式化的方法，一遍在以后可以方便地使用
+> - 使用@符号
+> - Java SE5内置了三种方法
+>> - @Override 覆写超类的方法
+>> - @Deprecated 如果使用了该类注释的方法编译器会发出警告
+>> - SuppressWarings 关闭不当额编译器警告信息
+> - 此外，还有四种注解的方法
+#### 2) 基本语法
+> -  注解的使用方法几乎与修饰符的使用一模一样
+                
+                @Test void testExecute() {
+                    // doSomething
+                }
+#### 2) 注解的定义 
+> - 与接口类似，注解也会编译成class文件
+> - 定义元注解的时候，会需要一些元注解（meta-annotation）如@Target和@Retention
+> - @Target用于定义注解将应用于什么地方，是一个方法还是一个域
+> - @Retention定义该注释在哪一个级别可用，在源代码中（SOURCE），类文件（CLASS）或者是运行时（RUNTIME）
+                
+                import java.lang.annotation.*;
+
+                @Target(ElementType.Method);
+                @Retention(RetentionPolicy.RUNTIME);
+                public @interface useCase {
+                    // doSomething
+                }
+>>>>>> ![图12-2 元注解.png](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE11-4%20%E5%B8%B8%E7%94%A8%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8Fflag2.png?raw=true)
+> - 而没有元素的注解称为**标记注解**
