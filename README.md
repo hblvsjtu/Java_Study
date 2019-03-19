@@ -1,7 +1,7 @@
 # Java_Study
 
 ## 作者：冰红茶  
-## 参考书籍：《Java编程思想》第四版
+## 参考书籍：《Java编程思想》第四版  《Java核心技术》卷一和卷二 原书第10版
     
 ------    
     
@@ -10,9 +10,11 @@
 ## 目录
 ## [一、简介](#1)
 ### [1.1 对象导论](#1.1)
-## [二、基础语法](#2)
-### [2.1 操作符](#2.1)
-### [2.2 流程控制](#2.2)
+## [二、Java的基本程序设计结构](#2)
+### [2.1 一个简单的Java应用程序](#2.1)
+### [2.2 数据类型](#2.2) 
+### [2.3 变量](#2.3)
+### [2.4 运算符](#2.4)  
 ## [三、初始化与清理](#3)
 ### [3.1 初始化](#3.1)
 ### [3.2 清理](#3.2)
@@ -77,15 +79,122 @@
 
 ------      
         
-<h2 id='2'>二、基础语法</h2>
-<h3 id='2.1'>2.1 操作符</h3>  
+<h2 id='2'>二、Java的基本程序设计结构</h2>
+<h3 id='2.1'>2.1 一个简单的Java应用程序</h3>  
         
-#### 1) 总体思路
->>>>>> ![图2-1 操作符](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE2-1%20%E6%93%8D%E4%BD%9C%E7%AC%A6.jpg?raw=true)
-        
+#### 1) 一个简单的Java应用程序
+> - class类名应采用驼峰式命名 每个单词的首字母大写
+> - 源文件名需和公共类名相同，后缀为.java
+> - 程序将从类中的main方法开始执行，所以main方法必须是public和静态的，与C/C++相同的是，void表示无返回值，不同的是，main方法没有为操作系统返回“退出代码”，如果正常退出则返回0。如果希望返回其他代码，则需要调用System.exit方法
+> - 
+                
+                /**
+                 - 
+                 */
+                package practice;
+                /**
+                 - @author LvHongbin
+
+                 *
+                 */
+                public class HelloWorld {
+
+                    /**
+                     - @param args
+                     */
+                    static String s1 = "你好";  // 回车不是结束，可以写多行
+                    public static void main(String[] args) {
+                        // TODO Auto-generated method stub
+                        String s2 = "Java";
+                        System.out.println(s1);     //System.out.println输出后换行
+                        System.out.println(s2);     //System.out.print输出后不换行
+                    }
+                }
+
+                你好
+                Java
 
                 
+<h3 id='2.2'>2.2 数据类型</h3>  
         
+#### 1) 整数类型
+> - Java是一种强数据类型，意味着必须为每个变量声明一种类型，在Java中每一种有8种基本类型
+> - 整形有四种 byte(1字节)，short(2字节)，int(4字节)，long(8字节)
+> - 在Java中，整形的范围与运行Java代码的机器无关，这就解决了软件从一个平台移植到另一个平台、一个操作系统移植给另外一个操作系统的诸多问题
+> - 没有无符号的unsigned
+                
+#### 2) 浮点类型
+> - float(4字节)，double(8字节)，float类型的数值有一个后缀F或者f，没有后缀的默认是double类型，当然了可以在后面添加D或者d
+> - 其他特殊的浮点数值：
+>> - 正无穷大(正整数/0), Double.POSITIVE_INFINITY
+>> - 负无穷大(负整数/0), Double.NEGATIVE_INFINITY
+>> - NaN(0/0或者负数的平方根，不是一个数字), Double.NaN    
+                
+                // 不能使用if条件判断是不是非数值，因为所有非数值都不想等
+                // 但是可以使用Double.isNaN(x) 来检查
+                if(x == Double.NaN) 
+
+#### 3) char类型
+> - 字面量需要用单引号括起来，也可以用转义序列\u表示，从\u0000到\Uffff
+> - 还有其他特殊的转义字符
+>>>>>> ![图2-2 特殊字符的转移序列.png](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE2-1%20%E6%93%8D%E4%BD%9C%E7%AC%A6.jpg?raw=true)
+                
+#### 4) boolean类型
+> - true和false
+> - 需要注意的是，在C++中，数值甚至是指针可以替代boolean值，0相当于false，非0相当于true。但是在Java中没有这个便利。因为在Java中无法隐式地将int值转换为boolean。
+                
+                if(0) {
+                    System.out.println(0);
+                }
+
+                Exception in thread "main" java.lang.Error: Unresolved compilation problem: 
+                    Type mismatch: cannot convert from int to boolean
+
+                    at practice.HelloWorld.main(HelloWorld.java:21)
+
+                
+<h3 id='2.3'>2.3 变量</h3>  
+        
+#### 1) 变量
+> - 必须使用赋值语句对变量进行显式初始化，否则会报错
+> - 在C++中是严格区分声明和定义的
+                
+                int i = 10  // 这是一个定义
+                extern int i    // 这是一个声明
+> - 在Java中变量初始化等效于C++的定义  
+#### 2) 常量
+> - final表示常量，一旦被初始化，就不能再更改其值，一般用大写字母表示
+> - 数学函数Math类， Math.sqrt(x); Math.pow(x, a); Math.sin(x); Math.cos(x); Math.E; Math.PI;
+       
+<h3 id='2.4'>2.4 运算符</h3>  
+        
+#### 1) 数值类型的转换表
+> - 从大字节转换为小字节会造成信息丢失
+#### 2) 强制类型转换
+> - 在圆括号中填写需要转换的目标数据类型
+> -  Math.round()得到最接近的整数，但是由于返回值为long类型，需要进行强制转换
+                
+                 (int)Math.round(x);
+
+        
+#### 3) 位运算符
+> - 先转换为二进制，再按位模式进行处理
+                
+                &("and") |("and") ^("xor") ~("not")
+
+                System.out.println(1 & 0b0000010);
+
+                0
+> - 在布尔值上，跟&& 和 ||不同的是，&和|没有短路的功能，两个操作数都需要计算完毕，而&& 和 ||可以只看第一个数做出判断
+> - 右移>>、 左移<<   >>>运算符会用0填充高位，不存在<<<运算符 在数字没有溢出的前提下，对于正数和负数，左移一位都相当于乘以2的1次方，左移n位就相当于乘以2的n次方。
+        
+#### 4) 枚举类型
+> - 
+       
+<h3 id='2.5'>2.5 mei</h3>  
+        
+#### 1) 数值类型的转换表
+> - 
 ------      
         
 <h2 id='3'>三、初始化与清理</h2>
