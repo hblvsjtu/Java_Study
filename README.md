@@ -14,7 +14,10 @@
 ### [2.1 一个简单的Java应用程序](#2.1)
 ### [2.2 数据类型](#2.2) 
 ### [2.3 变量](#2.3)
-### [2.4 运算符](#2.4)  
+### [2.4 运算符](#2.4) 
+### [2.5 字符串](#2.5) 
+### [2.6 输入与输出](#2.6)
+### [2.7 正则表达式](#2.7) 
 ## [三、初始化与清理](#3)
 ### [3.1 初始化](#3.1)
 ### [3.2 清理](#3.2)
@@ -137,7 +140,7 @@
 #### 3) char类型
 > - 字面量需要用单引号括起来，也可以用转义序列\u表示，从\u0000到\Uffff
 > - 还有其他特殊的转义字符
->>>>>> ![图2-2 特殊字符的转移序列.png](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE2-1%20%E6%93%8D%E4%BD%9C%E7%AC%A6.jpg?raw=true)
+>>>>>> ![图2-2 特殊字符的转移序列.png](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE2-2%20%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E7%9A%84%E8%BD%AC%E7%A7%BB%E5%BA%8F%E5%88%97.png?raw=true)
                 
 #### 4) boolean类型
 > - true和false
@@ -189,12 +192,372 @@
 > - 右移>>、 左移<<   >>>运算符会用0填充高位，不存在<<<运算符 在数字没有溢出的前提下，对于正数和负数，左移一位都相当于乘以2的1次方，左移n位就相当于乘以2的n次方。
         
 #### 4) 枚举类型
-> - 
+> - enum 
+> - 枚举的集合类型名称可以自定义，可以储存某个枚举值或者null值，null值就表示这个变量没有设置任何值
+                
+                enum Size {SAMLL, MEDIUM, LARGE, EXTRA_LARGE};
+                Size s = null;
+                s = Size.MEDIUM
+
+                MEDIUM
+
        
-<h3 id='2.5'>2.5 mei</h3>  
+<h3 id='2.5'>2.5 字符串</h3>  
         
-#### 1) 数值类型的转换表
+#### 1) 字串substring
+> - 优点，容易计算字串的长度，如3 = 3 - 0
+                
+                String greeting = "hello";
+                String str = greeting.substring(0,3);
+                System.out.println(str);
+
+                hel
+#### 2) 拼接
+> - 直接使用 + 号 用于String的“+”与“+=”是Java中仅有的两个重载过的操作符，而Java并不允许程序员重载任何的操作符
+> - 或者使用join方法，用一个定界符分割多个字串
+                
+                String all = String.join("/", "S", "M", "A", "L", "L");
+                System.out.println(all);
+
+                S/M/A/L/L
+#### 3) 不可变字符
+> - 不可变，任何一个看起来修改String值的方法，实际上都是创建了一个全新的String对象，以包含修改后的字符串内容，而最初的String对象则丝毫未动。
+> - 每当把String对象作为方法的参数的时候，实际上传递的是引用的拷贝，对于不使用的引用，系统会进行自动回收。
+> - 具有只读属性
+#### 4) 检测字符串是否相等
+> - equals()
+> - 不能使用==，因为==只检测“指针”是否相等，实际上不同的字符串常量拥有不同的指针
+                String greeting = "hello";
+                String str = greeting.substring(0,3) + "lo";
+                System.out.println(str.equals(greeting));
+                System.out.println(str == greeting);
+
+                true
+                false
+#### 5) 空串和null串
+> - 检测空串的方法
+                
+                String none = "";
+                if(none != null && none.length() == 0) {
+                    System.out.println("none是空串");
+                }else if(none != null && none.length() != 0) {
+                    System.out.println("none不是null也不是空串");
+                }else {
+                    System.out.println("none是null");
+                }
+
+                none是空串
+#### 6) 码点与代码单元
+> - 代码点：是指一个编码表中的某个字符对应的代码值，也就是Unicode编码表中每个字符对应的数值。Unicode标准中，代码点采用16进制书写，并加上前缀U+，比如字符A对于的编码值是U+0041，Unicode的代码点可以分成17个代码级别。第一个代码级别称为基本的多语言级别，代码点从U+0000到U+FFFF，其中包括了经典的Unicode代码，其余的16个附加级别，代码点从U+10000到U+10FFFF，其中包括了一些增补字符[————夏雨的竹子](https://blog.csdn.net/u010411264/article/details/45258629)。
+> - 则是针对编码方法而言，它指的是编码方法中对一个字符编码以后所占的最小存储单元。例如UTF-8中，代码单元是一个字节，因为一个字符可以被编码为1个，2个或者3个4个字节；在UTF-16中，代码单元变成了两个字节（就是一个char），因为一个字符可以被编码为1个或2个char（你找不到比一个char还小的UTF-16编码的字符，嘿嘿）。说得再罗嗦一点，一个字符，仅仅对应一个代码点，但却可能有多个代码单元（即可能被编码为2个char）。[————滴水成川](https://blog.csdn.net/xiaofei125145/article/details/50818343)。
+> - length方法返回的是采用UTF-16编码表示的给定字符串所需要的代码单元数量
+> - codePointCount方法返回的是码点数量
+                
+                String greeting = "hello";
+                System.out.println(greeting.codePointCount(0, greeting.length()));
+
+                5
+> - charAt(n)方法返回第n个位置的代码单元
+                
+                String greeting = "hello";
+                System.out.println(greeting.charAt(1));
+
+                e
+#### 7) 常用的方法
+> - length()
+> - charAt() // 返回索引位置上的char
+> - contentEquals() equalsIgnoreCase // 比较String内容
+> - reginMatcher() // 参数是该Sting的索引偏移量，另一个String极其索引偏移量，要比较的长度，返回Boolean结果
+> - concat()
+> - replace("旧的字符串", "新的字符串")
+> - indexOf()
+> - trim() //删除前后空格
+> - valueOf() // 返回一个表示参数内容的String
+> - 其实从返回值可以看出，当要改变字符串内容的时候，都会返回一个新的对象
+> - toLowerCase()
+> - toUpperCase()
+> - join("分界字符", "各个分解的字符"...)
+#### 8) 构建字符串
+> - 普通的短字符进行频繁连接的时候，使用普通的“+”会使得效率低下，因为会频繁创建新的String对象，既耗时又浪费空间，但是使用StringBuilder类就可以壁面这个问题。
+> - StringBuilder类的前身是StringBuffer，效率稍低，但是可以在多线程中执行添加或者删除字符的操作，如果在单线程中最好还是要用StringBuilder类
+                
+                long startTime, endTime;
+                // 常规方法
+                startTime = System.currentTimeMillis();
+                String mix = "";
+                for(int i = 0; i < 100000; i++) {
+                    mix = mix + i;
+                }
+                // System.out.println(mix);
+                endTime = System.currentTimeMillis(); 
+                System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
+
+                // StringBuilder类方法
+                startTime = System.currentTimeMillis();
+                StringBuilder builder = new StringBuilder();
+                for(int i = 0; i < 100000; i++) {
+                    builder.append(i);
+                }
+                // System.out.println(builder.toString());
+                endTime = System.currentTimeMillis(); 
+                System.out.println("程序运行时间：" + (endTime - startTime) + "ms"); 
+                
+                // StringBuffer类方法
+                startTime = System.currentTimeMillis();
+                StringBuffer buffer = new StringBuffer();
+                for(int i = 0; i < 100000; i++) {
+                    buffer.append(i);
+                }
+                // System.out.println(buffer.toString());
+                endTime = System.currentTimeMillis(); 
+                System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
+
+                程序运行时间：7304ms
+                程序运行时间：1ms
+                程序运行时间：113ms
+
+       
+<h3 id='2.6'>2.6 输入与输出</h3>  
+                 
+#### 1) 输入
+> - Scanner类
+>> - 新建实例时需要添加InputStream类, 如System.in和java.nio.file.Paths
+>> - 需要注意的是，next()、nextInt()等方法会将换行号掉到下一个输入中去，导致如果下一个输入还是nextInt()等方法的话会被直接执行，所以最后在每一个nextInt()等方法后加一个nextLine()方法用来吸收掉下来的换行符。
+                
+                Scanner in = new Scanner(System.in);
+                System.out.println("Please input your name：");
+                String name = in.nextLine();
+                String sex = in.next();
+                int age = in.nextInt();
+                System.out.println("\n" + name + "先生,\n性别：" + sex + ",\n年龄："+ age + "。");
+                // Console con = System.console();
+                // String username = con.readLine("username: ");
+                // char[] passward = con.readPassword("Passward: "); 
+
+                吕鸿斌先生,
+                性别：男,
+                年龄：24。
+
+> - console类，用来输入密码用的，不能在常规的eclipse控制台中使用
+
+#### 2) 格式化输出
+> - System.out.format()
+>> - 用于PrintStream和PrintWriter对象；
+>> - format()跟printf()等价
+                
+                System.out.format("Row 1: [%d %f]\n", x, y);
+                System.out.printf("Row 1: [%d %f]\n", x, y);
+> - Formatter类
+>> - 在Java中，所有新的格式化功能都由java.util.Formatter类处理
+                                
+                PrintStream outAlias = System.out;
+                private Formatter f = new Formatter(outAlias);
+                f.format("%s The Turtle is at (%d, %d)\n", name, x, y);
+>> - 格式化说明符
+                
+                // width: 一个域的最小尺寸
+                // precision: 应用于String时，表示打印String时输出的字符的最大数量；应用于浮点数的时候，表示小数部分要显示出来的位数（默认是6位小数），但是无法应用于整数，否则会触发异常
+                // 默认是右对齐，不过可以通过使用“-”标志来改变方向
+                %[argument_index$][flags][width][.precision]conversion
+>>>>>> ![图11-1 Formatter_Sample](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE11-1%20Formatter_Sample.png?raw=true)
+> - 常用的类型转换字符
+>> - d 整数型（十进制）
+>> - c Unicode字符
+>> - b boolean值
+>> - s String 
+>> - f float(十进制)
+>> - e 浮点数（科学计数）
+>> - x 整数（十六进制）
+>> - h 散列码（十六进制）
+>> - % 字符“%”
+> - 使用类型转换字符时需要注意合法性。Boolean只要参数不是null，都会返回true，否则返回false
+> - String.format()
+>> - 参考了C中的sprintf()的方法，已生成格式化的String对象。
+>> - 它是一个static方法，接受与Formatter.format()方法一样的参数，但是返回的是一个String对象
+>> - 内部的话也是创建一个Formatter对象，然后讲参数传给它。但是使用String.format()的话就会便捷很多
+#### 3) 文件的输入和输出
+> - 输入文件时，需要在scanner类中构建文件类
+                
+                try {
+                    @SuppressWarnings("resource")
+                    Scanner file = new Scanner(Paths.get("C:\\Users\\Lv Hongbin\\Desktop\\StartWeChat.bat"), "UTF-8");
+                    System.out.println("StartWeChat.bat: " + file.nextLine());
+                }catch(Exception e) {
+                    System.out.println("Exception e: " + e);
+                }finally{
+                    
+                }
+
+                StartWeChat.bat: start E:\"Program Files (x86)"\Tencent\WeChat\WeChat.exe
+
+> - 写入文件时，需要实例化PrintWriter类，然后项System.out那样使用print、println以及printf
+>> - 如果写入文件名的文件不存在，则自动创建
+>> - 文件使用完一定要关闭哦，否则写不尽内容
+                
+                PrintWriter pw = new PrintWriter("C:\\Users\\Lv Hongbin\\Desktop\\PrintWriter.txt", "UTF-8");
+                pw.print("PrintWriter");
+                pw.close();
+
+<h3 id='2.7'>2.7 正则表达式</h3>  
+        
+#### 1) 使用方法
+> - 内建功能进行判断 String.matches("自己的正则表达式");
+                
+                “1234”.matches("-?\\d+");
+> - split()，“将字符串从正则表达式匹配的地方切开”，返回剩余的字符串。他还有一个重载的版本，它允许你限制字符串分隔的次数
+                
+
+                "nihao1234".split("\d+"); // "nihao"
+
+        
+> - replaceFirst("正则表达式", "用于替换的词") replaceAll("正则表达式", "用于替换的词")替换
+>>>>>> ![图11-2 正则表达式](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE11-2%20%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F.png?raw=true)
+#### 2) 量词
+> - 描述一个模式吸收输入文本的方式
+> - 贪婪型  * + {n,} 默认情况是贪婪模式匹配
+> - 勉强型（或者叫懒惰型，非贪婪型）?跟在 * + {n,} 等的后面时，表示非贪婪模式
+> - 占有型 只有Java语言独有，贪婪型在尽可能匹配字符串的时候加入匹配不成功会进行回溯，但是占有型却相反，不会进行回溯，所以有时候会出现贪婪型匹配成功，但是占有型一个都匹配不成功的情况出现 [java学习笔记001之正则表达式贪婪型、勉强型和占有型p299](https://blog.csdn.net/mushao999/article/details/46331145)
+>>>>>> ![图11-3 量词的分类](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE11-3%20%E9%87%8F%E8%AF%8D%E7%9A%84%E5%88%86%E7%B1%BB.png?raw=true)
+#### 3) Pattern和Matcher
+> - 可以自定义构造一个功能强大的正则表达式对象，只需要导入java.util.regex包；
+> - 然后使用static Pattern.compile()方法来编译你的正则表达式，根据String类型的正则表达式生成一个Pattern对象
+> - Pattern.compile()接受两个参数，第一个参数是正则表达式，第二个参数是flag，常用的flag有如下几个
+>>>>>> ![图11-4 常用的正则表达式flag1](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE11-4%20%E5%B8%B8%E7%94%A8%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8Fflag1.png?raw=true)
+>>>>>> ![图11-4 常用的正则表达式flag2](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE11-4%20%E5%B8%B8%E7%94%A8%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8Fflag2.png?raw=true)
+> - Pattern.compile().split() // 分隔
+> - Pattern.compile().replaceAll() // 替换全部
+> - Pattern.compile().replaceFirst() // 替换第一个匹配组
+> - > - Pattern.compile().appendReplacement(StringBuffer sbuf, String replacement) // 执行渐进式替换
+                
+                /**
+                 * 
+                 */
+                package com.sjtu.javaStudy;
+
+                import java.util.regex.Matcher;
+                import java.util.regex.Pattern;
+
+                /**
+                 * @author hblvs
+                 *
+                 */
+                public class javaTest {
+
+                    /**
+                     * @param args
+                     */
+                    public static void main(String[] args) {
+                        // TODO Auto-generated method stub
+                         String regex = "\\b[^A-W && ^\\S].+?\\b";
+                         String input = "123 lvhongbin Apple Banana pear Orange";
+                         Pattern p = Pattern.compile(regex);
+                         Matcher m = p.matcher(input);
+                         while(m.find()) {
+                             System.out.println(m.group() + m.start() + m.end());
+                         }
+                    }
+                }
+
+                // output
+                12303
+                lvhongbin413
+                pear2731
+> - Matcher.matches()/ Matcher.lookingAt()/ Matcher.find()
+> - Matcher.matches() // 需要整个输入都匹配才成功
+> - Matcher.find() // 参数可以输入index的位置，表示从那往后开始匹配
+> - Matcher.lookingAt() // 只要输入的第一部分匹配成功即可
+> - Matcher.lookingAt() // 将现有的Matcher对象应用于一个新的字符序列
+
+Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当匹配到时返回true,没匹配到则返回false  [gdwkong的博客 java Pattern和Matcher详解](https://www.cnblogs.com/gdwkong/articles/7782331.html)
+> - Pattern标记
+#### 4) 扫描输入
+> - java.io
+> - StringRreader将String转化为可读大的流对象，然后用这个对象来构造BufferReader对象。因为我们要使用BufferReader的readLine()方法。
+> - 还有一个功能更加强大的Scanner类，使用BufferReader作为输入，应该是做了一层封装，方便直接把扫描到的内容转换成所需要的类型
+> - 实际上Scanner类可以接收任意输入类型作为参数，包括Readable对象，File对象，InputStream和String
+> - Scanner类还可以配合pattern正则表达式进行扫描
+> - 需要注意的是StringReader用过之后需要重新新建才能把光标复位
 > - 
+                
+                /**
+                 * 
+                 */
+                package com.sjtu.javaStudy;
+                import java.io.BufferedReader;
+                import java.io.StringReader;
+                import java.util.Scanner;
+                import java.util.regex.Matcher;
+                import java.util.regex.Pattern;
+
+                /**
+                 * @author hblvs
+                 *
+                 */
+                public class javaTest {
+                    
+                    private static BufferedReader buffer(String str) {
+                        BufferedReader bf = new BufferedReader(new StringReader(str));
+                        return bf;
+                    }
+
+                    /**
+                     * @param args
+                     */
+                    public static void main(String[] args) {
+                        // TODO Auto-generated method stub
+                         String regex = "\\b[^A-W && ^\\S].+?\\b";
+                         String input = "123 lvhongbin Apple Banana pear Orange";
+                         Pattern p = Pattern.compile(regex);
+                         Matcher m = p.matcher(input);
+                         while(m.find()) {
+                             System.out.println(m.group() + m.start() + m.end());
+                         }
+                         String userInfo = "lvhongbin\n25\n0.809015";
+                         BufferedReader bf = buffer(userInfo);
+                         try {
+                             boolean isEnd = false;
+                             while(!isEnd) {
+                                 String myName = bf.readLine();
+                                 if(myName != null) {
+                                     System.out.println(myName); 
+                                 }else {
+                                     isEnd = true;
+                                 }
+                             }
+                         }catch (Exception e) {
+                             e.printStackTrace();
+                         }
+                         @SuppressWarnings("resource")
+                         Scanner scanner = new Scanner(userInfo);
+                         String name = scanner.nextLine();
+                         int age = scanner.nextInt();
+                         double favorite = scanner.nextDouble();
+                         System.out.format("Hi, %s\n", name);
+                         System.out.format("In 5 years, you will be %d.\n", age + 5);
+                         System.out.format("My favorite number is %f.\n", favorite / 2);
+                         
+                         // Scanner配合正则表达式
+                         @SuppressWarnings("resource")
+                         Scanner scannerRegEx = new Scanner(userInfo);
+                         while(scannerRegEx.hasNext("[a-z]+")) {
+                             scannerRegEx.next(".+");
+                             System.out.println(scannerRegEx.match().group(0));
+                         }
+                    }
+                }
+
+                // output 
+                12303
+                lvhongbin413
+                pear2731
+                lvhongbin
+                25
+                0.809015
+                Hi, lvhongbin
+                In 5 years, you will be 30.
+                My favorite number is 0.404508.
+                lvhongbin
+
 ------      
         
 <h2 id='3'>三、初始化与清理</h2>
@@ -676,202 +1039,6 @@
 > - valueOf() // 返回一个表示参数内容的String
 > - 其实从返回值可以看出，当要改变字符串内容的时候，都会返回一个新的对象
         
-<h3 id='11.3'>11.3 格式化输出</h3>  
-        
-#### 1) System.out.format()
-> - 用于PrintStream和PrintWriter对象；
-> - format()跟printf()等价
-                
-                System.out.format("Row 1: [%d %f]\n", x, y);
-                System.out.printf("Row 1: [%d %f]\n", x, y);
-#### 2) Formatter类
-> - 在Java中，所有新的格式化功能都由java.util.Formatter类处理
-                                
-                PrintStream outAlias = System.out;
-                private Formatter f = new Formatter(outAlias);
-                f.format("%s The Turtle is at (%d, %d)\n", name, x, y);
-> - 格式化说明符
-                
-                // width: 一个域的最小尺寸
-                // precision: 应用于String时，表示打印String时输出的字符的最大数量；应用于浮点数的时候，表示小数部分要显示出来的位数（默认是6位小数），但是无法应用于整数，否则会触发异常
-                // 默认是右对齐，不过可以通过使用“-”标志来改变方向
-                %[argument_index$][flags][width][.precision]conversion
->>>>>> ![图11-1 Formatter_Sample](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE11-1%20Formatter_Sample.png?raw=true)
-> - 常用的类型转换字符
->> - d 整数型（十进制）
->> - c Unicode字符
->> - b boolean值
->> - s String 
->> - f float(十进制)
->> - e 浮点数（科学计数）
->> - x 整数（十六进制）
->> - h 散列码（十六进制）
->> - % 字符“%”
-> - 使用类型转换字符时需要注意合法性。Boolean只要参数不是null，都会返回true，否则返回false
-#### 2) String.format()
-> - 参考了C中的sprintf()的方法，已生成格式化的String对象。
-> - 它是一个static方法，接受与Formatter.format()方法一样的参数，但是返回的是一个String对象
-> - 内部的话也是创建一个Formatter对象，然后讲参数传给它。但是使用String.format()的话就会便捷很多
-        
-<h3 id='11.4'>11.4 正则表达式</h3>  
-        
-#### 1) 使用方法
-> - 内建功能进行判断 String.matches("自己的正则表达式");
-                
-                “1234”.matches("-?\\d+");
-> - split()，“将字符串从正则表达式匹配的地方切开”，返回剩余的字符串。他还有一个重载的版本，它允许你限制字符串分隔的次数
-                
-
-                "nihao1234".split("\d+"); // "nihao"
-
-        
-> - replaceFirst("正则表达式", "用于替换的词") replaceAll("正则表达式", "用于替换的词")替换
->>>>>> ![图11-2 正则表达式](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE11-2%20%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F.png?raw=true)
-#### 2) 量词
-> - 描述一个模式吸收输入文本的方式
-> - 贪婪型  * + {n,} 默认情况是贪婪模式匹配
-> - 勉强型（或者叫懒惰型，非贪婪型）?跟在 * + {n,} 等的后面时，表示非贪婪模式
-> - 占有型 只有Java语言独有，贪婪型在尽可能匹配字符串的时候加入匹配不成功会进行回溯，但是占有型却相反，不会进行回溯，所以有时候会出现贪婪型匹配成功，但是占有型一个都匹配不成功的情况出现 [java学习笔记001之正则表达式贪婪型、勉强型和占有型p299](https://blog.csdn.net/mushao999/article/details/46331145)
->>>>>> ![图11-3 量词的分类](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE11-3%20%E9%87%8F%E8%AF%8D%E7%9A%84%E5%88%86%E7%B1%BB.png?raw=true)
-#### 3) Pattern和Matcher
-> - 可以自定义构造一个功能强大的正则表达式对象，只需要导入java.util.regex包；
-> - 然后使用static Pattern.compile()方法来编译你的正则表达式，根据String类型的正则表达式生成一个Pattern对象
-> - Pattern.compile()接受两个参数，第一个参数是正则表达式，第二个参数是flag，常用的flag有如下几个
->>>>>> ![图11-4 常用的正则表达式flag1](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE11-4%20%E5%B8%B8%E7%94%A8%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8Fflag1.png?raw=true)
->>>>>> ![图11-4 常用的正则表达式flag2](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE11-4%20%E5%B8%B8%E7%94%A8%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8Fflag2.png?raw=true)
-> - Pattern.compile().split() // 分隔
-> - Pattern.compile().replaceAll() // 替换全部
-> - Pattern.compile().replaceFirst() // 替换第一个匹配组
-> - > - Pattern.compile().appendReplacement(StringBuffer sbuf, String replacement) // 执行渐进式替换
-                
-                /**
-                 * 
-                 */
-                package com.sjtu.javaStudy;
-
-                import java.util.regex.Matcher;
-                import java.util.regex.Pattern;
-
-                /**
-                 * @author hblvs
-                 *
-                 */
-                public class javaTest {
-
-                    /**
-                     * @param args
-                     */
-                    public static void main(String[] args) {
-                        // TODO Auto-generated method stub
-                         String regex = "\\b[^A-W && ^\\S].+?\\b";
-                         String input = "123 lvhongbin Apple Banana pear Orange";
-                         Pattern p = Pattern.compile(regex);
-                         Matcher m = p.matcher(input);
-                         while(m.find()) {
-                             System.out.println(m.group() + m.start() + m.end());
-                         }
-                    }
-                }
-
-                // output
-                12303
-                lvhongbin413
-                pear2731
-> - Matcher.matches()/ Matcher.lookingAt()/ Matcher.find()
-> - Matcher.matches() // 需要整个输入都匹配才成功
-> - Matcher.find() // 参数可以输入index的位置，表示从那往后开始匹配
-> - Matcher.lookingAt() // 只要输入的第一部分匹配成功即可
-> - Matcher.lookingAt() // 将现有的Matcher对象应用于一个新的字符序列
-
-Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当匹配到时返回true,没匹配到则返回false  [gdwkong的博客 java Pattern和Matcher详解](https://www.cnblogs.com/gdwkong/articles/7782331.html)
-> - Pattern标记
-#### 4) 扫描输入
-> - java.io
-> - StringRreader将String转化为可读大的流对象，然后用这个对象来构造BufferReader对象。因为我们要使用BufferReader的readLine()方法。
-> - 还有一个功能更加强大的Scanner类，使用BufferReader作为输入，应该是做了一层封装，方便直接把扫描到的内容转换成所需要的类型
-> - 实际上Scanner类可以接收任意输入类型作为参数，包括Readable对象，File对象，InputStream和String
-> - Scanner类还可以配合pattern正则表达式进行扫描
-> - 需要注意的是StringReader用过之后需要重新新建才能把光标复位
-> - 
-                
-                /**
-                 * 
-                 */
-                package com.sjtu.javaStudy;
-                import java.io.BufferedReader;
-                import java.io.StringReader;
-                import java.util.Scanner;
-                import java.util.regex.Matcher;
-                import java.util.regex.Pattern;
-
-                /**
-                 * @author hblvs
-                 *
-                 */
-                public class javaTest {
-                    
-                    private static BufferedReader buffer(String str) {
-                        BufferedReader bf = new BufferedReader(new StringReader(str));
-                        return bf;
-                    }
-
-                    /**
-                     * @param args
-                     */
-                    public static void main(String[] args) {
-                        // TODO Auto-generated method stub
-                         String regex = "\\b[^A-W && ^\\S].+?\\b";
-                         String input = "123 lvhongbin Apple Banana pear Orange";
-                         Pattern p = Pattern.compile(regex);
-                         Matcher m = p.matcher(input);
-                         while(m.find()) {
-                             System.out.println(m.group() + m.start() + m.end());
-                         }
-                         String userInfo = "lvhongbin\n25\n0.809015";
-                         BufferedReader bf = buffer(userInfo);
-                         try {
-                             boolean isEnd = false;
-                             while(!isEnd) {
-                                 String myName = bf.readLine();
-                                 if(myName != null) {
-                                     System.out.println(myName); 
-                                 }else {
-                                     isEnd = true;
-                                 }
-                             }
-                         }catch (Exception e) {
-                             e.printStackTrace();
-                         }
-                         @SuppressWarnings("resource")
-                         Scanner scanner = new Scanner(userInfo);
-                         String name = scanner.nextLine();
-                         int age = scanner.nextInt();
-                         double favorite = scanner.nextDouble();
-                         System.out.format("Hi, %s\n", name);
-                         System.out.format("In 5 years, you will be %d.\n", age + 5);
-                         System.out.format("My favorite number is %f.\n", favorite / 2);
-                         
-                         // Scanner配合正则表达式
-                         @SuppressWarnings("resource")
-                         Scanner scannerRegEx = new Scanner(userInfo);
-                         while(scannerRegEx.hasNext("[a-z]+")) {
-                             scannerRegEx.next(".+");
-                             System.out.println(scannerRegEx.match().group(0));
-                         }
-                    }
-                }
-
-                // output 
-                12303
-                lvhongbin413
-                pear2731
-                lvhongbin
-                25
-                0.809015
-                Hi, lvhongbin
-                In 5 years, you will be 30.
-                My favorite number is 0.404508.
-                lvhongbin
 
         
         
