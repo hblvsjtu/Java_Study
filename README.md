@@ -18,6 +18,8 @@
 ### [2.5 字符串](#2.5) 
 ### [2.6 输入与输出](#2.6)
 ### [2.7 正则表达式](#2.7) 
+### [2.8 大数值](#2.8)
+### [2.9 数组](#2.9)
 ## [三、初始化与清理](#3)
 ### [3.1 初始化](#3.1)
 ### [3.2 清理](#3.2)
@@ -558,6 +560,75 @@ Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当�
                 My favorite number is 0.404508.
                 lvhongbin
 
+                
+
+       
+<h3 id='2.8'>2.8 大数值</h3>  
+                 
+#### 1) BigInteger大整数
+> - BigInteger BigInteger.add(BigInteger, other)
+> - BigInteger BigInteger.subtract(BigInteger, other)
+> - BigInteger BigInteger.multiply(BigInteger, other)
+> - BigInteger BigInteger.divide(BigInteger, other)
+> - BigInteger BigInteger.mod(BigInteger, other)
+> - int BigInteger.compareTo(BigInteger, other)
+#### 2) BigDecimal大实数
+> - BigDecimal BigDecimal.add(BigDecimal, other)
+> - BigDecimal BigDecimal.subtract(BigDecimal, other)
+> - BigDecimal BigDecimal.multiply(BigDecimal, other)
+> - BigDecimal BigDecimal.divide(BigDecimal, other)
+> - int BigDecimal.compareTo(BigDecimal, other)
+> - BigDecimal static BigDecimal.valueOf(long x)
+
+       
+<h3 id='2.9'>2.9 数组</h3>  
+                 
+#### 1) 数组介绍
+> - 数组是一种数据结构
+> - 声明：数据类型 + []
+> - 初始化：new 数据类型[n]，其中n表示数组规模。需要注意的是，数字数组初始化的时候全部为0，boolean数组的元素会为false，对象数组和字符串数组为null。如果需要制定特定的初始化数值，需要使用循环赋值的方式。或者使用对象+大括号方式，又或者直接使用大括号的方式。
+> - for(int element: a)增强型for循环，读作“循环a中的每一个元素”
+                
+                try {
+                    int[] arrayInt = new int[]{1, 2 , 3, 4, 5};
+                    @SuppressWarnings("resource")
+                    PrintWriter outputArray = new PrintWriter("C:\\Users\\Lv Hongbin\\Desktop\\outputArray.txt", "UTF-8");
+                    for(int element: arrayInt) {
+                        outputArray.println(element);
+                    }
+                    outputArray.close();
+                }catch(Exception e) {
+                    System.out.println("Exception e: " + e);
+                }finally {
+                    
+                }
+
+                1
+                2
+                3
+                4
+                5
+> - Java允许数组规模为0，但是此不等于null
+> - Java数组与C++数组在堆栈上有很大的不同，但是基本上与分配在堆(heap)上的数组指针一样
+                
+                // 即：
+                int array = new array[10] //Java
+
+                // 等同于，但是没有指针运算，不能通过+1获取下一个元素
+                int* array = new array[10] //C++
+                // 不同于
+                int array[10] //C++
+
+#### 2) 数组拷贝
+> - 浅拷贝，直接把一个数组的引用赋值给另外一个数组，那么当改变其中一个数组的值的时候，另外一个数组也会随之改变。
+> - 深拷贝，使用Array.copyOf(Array, length)或者使用循环赋值的方式
+#### 3) 命令行参数
+> - 我们平常见得非常多的main方法中的参数String arg[]，其实就是命令行中调用java程序后面跟着的参数
+#### 4) 高维数组
+> - 使用[]\[\]和{{}}
+> - 增强型for循环需要进行嵌套
+                
+                
 ------      
         
 <h2 id='3'>三、初始化与清理</h2>

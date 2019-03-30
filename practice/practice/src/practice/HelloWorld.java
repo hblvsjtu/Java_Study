@@ -72,7 +72,18 @@ public class HelloWorld {
         }finally{
         	
         }
-        
-        
+        try {
+        	int[] arrayInt = new int[]{1, 2 , 3, 4, 5};
+            @SuppressWarnings("resource")
+    		PrintWriter outputArray = new PrintWriter("C:\\Users\\Lv Hongbin\\Desktop\\outputArray.txt", "UTF-8");
+            for(int element: arrayInt) {
+                outputArray.println(element);
+            }
+            outputArray.close();
+        }catch(Exception e) {
+        	System.out.println("Exception e: " + e);
+        }finally {
+        	
+        }
 	}
 }
