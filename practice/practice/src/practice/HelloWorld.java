@@ -1,27 +1,30 @@
-/**
- * 
- */
 package practice;
 
-
-import java.io.Console;
 import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
 /**
- * @author LvHongbin
- *
+ * Description:
+ * <br>网站: <a href="https://github.com/hblvsjtu/Java_Study">Java_Study</a>
+ * <br>Copyright (C), 2017-2019, Lv Hongbin
+ * <br>This program is protected by copyright laws.
+ * <br>Program Name: HelloWorld
+ * <br>Date: 2019-03-30
+ * @author Lv Hongbin hblvsjtu@163.com
+ * @version 1.0
  */
+
 public class HelloWorld {
 
-	/**
-	 * @param args
-	 */
 	static String s1 = "你好";
 	enum Size {SAMLL, MEDIUM, LARGE, EXTRA_LARGE};
+	/**
+	 * Main 方法
+	 * @param args
+	 * @return none
+	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub 
 		String s2 = "Java";
 		System.out.println(s1);
 		System.out.println(s2);
@@ -53,7 +56,7 @@ public class HelloWorld {
         System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
         // 常规方法
         
-        Scanner in = new Scanner(System.in);
+//        Scanner in = new Scanner(System.in);
 //        System.out.println("Please input your name：");
 //        String name = in.nextLine();
 //        String sex = in.next();
@@ -74,8 +77,7 @@ public class HelloWorld {
         }
         try {
         	int[] arrayInt = new int[]{1, 2 , 3, 4, 5};
-            @SuppressWarnings("resource")
-    		PrintWriter outputArray = new PrintWriter("C:\\Users\\Lv Hongbin\\Desktop\\outputArray.txt", "UTF-8");
+            PrintWriter outputArray = new PrintWriter("C:\\Users\\Lv Hongbin\\Desktop\\outputArray.txt", "UTF-8");
             for(int element: arrayInt) {
                 outputArray.println(element);
             }
