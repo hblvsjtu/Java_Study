@@ -34,24 +34,27 @@
 ### [5.2 多态](#5.2)
 ### [5.3 用继承进行设计](#5.3)
 ### [5.4 接口](#5.4)
-## [六、异常](#6)
-### [6.1 接口](#6.1)
-### [6.2 通过继承来拓展接口和接口中的域](#6.2)
-## [八、内部类](#8)
-### [8.1 介绍](#8.1)
-### [8.2 为什么需要内部类](#8.2)
-## [九、持有对象](#9)
+## [六、内部类](#6)
+### [6.1 介绍](#6.1)
+### [6.2 为什么需要内部类](#6.2)
+## [七、异常、断言和日志](#7)
+### [7.1 概念](#7.1)
+### [7.2 捕获异常与创建自定义异常](#7.2)
+## [八、泛型程序设计](#8)
+### [8.1 概念](#8.1)
+## [九、集合](#9)
 ### [9.1 介绍](#9.1)
-## [十、通过异常处理错误](#10)
-### [10.1 概念](#10.1)
-### [10.2 捕获异常与创建自定义异常](#10.2)
+## [十、反射](#10)
+### [10.1 介绍](#10.1)
+## [十一、部署Java应用程序](#11)
+### [11.1 介绍](#11.1)
 ## [十二、类型信息与注解](#12)
 ### [12.1 类型信息](#12.1)
 ### [12.2 Class对象](#12.2)
 ### [12.3 反射](#12.3)
 ### [12.4 空对象](#12.4)
 ### [12.5 注解](#12.5)
-## [十三、并发](#14)
+## [十三、并发](#13)
 ### [13.1 留在写《Java多线程编程核心技术》时候再补充](#13.1)
 ## [十四、JVM](#14)
 ### [14.1 留在写《深入理解Java虚拟机》时候再补充](#14.1)
@@ -65,15 +68,21 @@
         
 #### 1) Java程序执行与运行环境
 >>>>>> ![Java程序执行与运行环境](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE1-1%20Java%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E4%B8%8E%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83.jpg?raw=true)
+                
 #### 2) UML图
 >>>>>> ![图1-2 UML图](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE1-2%20UML%E5%9B%BE.jpg?raw=true)
+                
 #### 3) 复用的具体体现
 >>>>>> ![图1-3 复用的具体体现1](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE1-3%20%E5%A4%8D%E7%94%A8%E7%9A%84%E5%85%B7%E4%BD%93%E4%BD%93%E7%8E%B01.jpg?raw=true)
+                
 >>>>>> ![图1-3 复用的具体体现2](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE1-3%20%E5%A4%8D%E7%94%A8%E7%9A%84%E5%85%B7%E4%BD%93%E4%BD%93%E7%8E%B02.jpg?raw=true)
+                
 #### 4) 对象的创建与生命周期
 >>>>>> ![图1-4 对象的创建与生命周期](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE1-4%20%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E4%B8%8E%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.jpg?raw=true)
+                
 #### 5) 数据类型
 >>>>>> ![图1-5 数据类型](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE1-5%20%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.jpg?raw=true)
+                
 #### 6) 包装类
 >>>>>> ![图1-6 包装类](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE1-6%20%E5%8C%85%E8%A3%85%E7%B1%BB.jpg?raw=true)
         
@@ -245,6 +254,8 @@
                 }
 
                 none是空串
+
+            
 #### 6) 码点与代码单元
 > - 代码点：是指一个编码表中的某个字符对应的代码值，也就是Unicode编码表中每个字符对应的数值。Unicode标准中，代码点采用16进制书写，并加上前缀U+，比如字符A对于的编码值是U+0041，Unicode的代码点可以分成17个代码级别。第一个代码级别称为基本的多语言级别，代码点从U+0000到U+FFFF，其中包括了经典的Unicode代码，其余的16个附加级别，代码点从U+10000到U+10FFFF，其中包括了一些增补字符[————夏雨的竹子](https://blog.csdn.net/u010411264/article/details/45258629)。
 > - 则是针对编码方法而言，它指的是编码方法中对一个字符编码以后所占的最小存储单元。例如UTF-8中，代码单元是一个字节，因为一个字符可以被编码为1个，2个或者3个4个字节；在UTF-16中，代码单元变成了两个字节（就是一个char），因为一个字符可以被编码为1个或2个char（你找不到比一个char还小的UTF-16编码的字符，嘿嘿）。说得再罗嗦一点，一个字符，仅仅对应一个代码点，但却可能有多个代码单元（即可能被编码为2个char）。[————滴水成川](https://blog.csdn.net/xiaofei125145/article/details/50818343)。
@@ -829,7 +840,7 @@ Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当�
 > - Java中就不会存在上述初始化的问题，因为Java中所有的事物都是对象，每个类的编译代码都存在与他自己的独立文件中，该文件只在需要使用程序代码时才会被加载，即加载发生于创建类的而第一个对象之时。“类的代码在初次使用时才加载”。初次使用之处也是static初始化发生之处。这就有效保证了类之间的依赖问题。
         
 
-
+        
 ------      
         
 <h2 id='5'>五、继承、覆盖、多态、接口和抽象</h2>
@@ -967,8 +978,8 @@ Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当�
         
 ------      
         
-<h2 id='8'>八、内部类</h2>
-<h3 id='8.1'>8.1 介绍</h3>  
+<h2 id='6'>六、内部类</h2>
+<h3 id='6.1'>6.1 介绍</h3>  
         
 #### 1) 内部类是什么
 > - 将一个类的定义放在另一个类的定义内部，类似于一种代码隐藏机制
@@ -1019,18 +1030,99 @@ Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当�
 > - 由于每个类都会产生.class文件
 > - 内部类都有自己的.class文件，只是该文件的名字是：外围类名字 + “$” + 内部类名字
         
-<h3 id='8.2'>8.2 为什么需要内部类</h3>  
+<h3 id='6.2'>6.2 为什么需要内部类</h3>  
         
 #### 1) 原因
 > - 每个内部类都能独立继承一个接口的实现，所以五路外围类是否已经继承了某个接口的实现，对内部类都没有影响
 > - 内部类使得多重继承的解决方案变得完整
 #### 2) 闭包和回调
-        
+> - 
+> -          
         
 ------      
         
-<h2 id='9'>九、持有对象</h2>
-<h3 id='9.1'>9.1 持有对象</h3>  
+<h2 id='7'>七、异常、断言和日志</h2>
+<h3 id='7.1'>7.1 概念</h3>  
+        
+#### 1) 基本理念
+> - “结构不佳的代码不能运行”
+> - 对于异常处理的实现最早可以追溯到20世纪60年代的操作系统，设甚至于BASIC语言中的on error goto语句
+> - C++的异常处理机制是基于Ada，Java中的异常处理则建立在C++的基础之上
+> - 一个明显的好处是，往往可以降低错误处理代码的复杂度，如果不适用异常，那就必须检查特定的错误，并在程序中的许多地方去处理它。而如果使用异常，则就不必在方法调用处进行检查。因为异常机制将把凭证能够捕获这个错误。并且，只需要在一个地方处理错误————即所谓的异常处理程序中。
+#### 2) 基本异常
+> - 普通问题：在当前环境下能得到足够的信息，总能处理这个错误
+> - 异常抛出：在当前环境下无法获得必要的信息来解决问题，只能从当前的环境中跳出，并且把问题提交给上一级的环境。
+#### 3）异常抛出后的处理
+> - 当异常抛出后，将使用new在堆上创建异常对象。然后在当前执行路径被终止，从当前环境中弹出对异常对象的引用，此时，异常处理机制接管程序，并开始寻找一个恰当的地方来继续执行程序。这个恰当的地方就是**异常处理程序**。它的任务是从错误状态中恢复，以使程序要么换一种方式运行，要么继续运行下去。
+#### 4）异常类型的根类和基类
+> - 根类：Throwable对象
+> - 基类：Exception对象
+        
+<h3 id='7.2'>7.2 捕获异常与创建自定义异常</h3>  
+        
+#### 1) try块
+#### 2) 异常处理程序
+> - 两种基本模型：终止模型 && 恢复模型
+#### 3) 创建自定义异常
+> - 要自己定义异常类，必须从已有的异常类继承，最好是选择意思相近的异常类继承。
+                
+                class SimpleException extends Exception {
+
+                }
+                punlic class InheritingExceptions {
+                    public void f() throws SimpleException {
+
+                    }
+                }
+
+                public static void main(String[] args) {
+                    InheritingExceptions sed = new InheritingExceptions();
+                    try {
+                        sed.f();
+                    } catch (SimpleException e) {
+                        // 处理自定义异常
+                    }
+                }
+#### 4) 捕获所有异常
+> - 最简单的方法，最好放在程序列表的末尾，以防它抢在其他处理程序之前把异常捕获        
+                
+                catch(Exception e) {
+                    System.out.printIn("Caught an exception");
+                }
+> - 但是Exception这个基类不包含太多的信息，不过可以调用其基类Throwable继承的方法来获取详细的信息
+                
+                String getMessage()
+                String getLocalizedMessage()
+>>>>>> ![图10-1 容器的分类图](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE10-1%20Exception%E7%9A%84%E4%BD%BF%E7%94%A8.png?raw=true)
+#### 5) 栈轨迹
+> - printStackTrace()方法所提供的信息可以通过getStackTrace()方法来直接访问。这个方法返回一个由栈轨迹中元素所构成的数组。每个元素都表示栈中的一帧。元素0是栈顶元素。并且是调用序列中最后一个方法调用，数组中的最后一个元素是和栈底是调用序列中的第一个方法调用
+> - 打印的时候是从最内层开始到最外层，这就说明是从调用序列中的第一个元素开始打印，第一个元素也是方法的最内层调用，最后一个元素是最外层的调用
+>>>>>> ![图10-2 printStackTrack](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE10-2%20printStackTrack.png?raw=true)
+#### 6) 重新抛出异常
+> - 直接在catch中添加throw e
+> - 但是重新抛出后printStackTrace()显示的是原来异常抛出点的调用栈信息，而非重新抛出点的信息，要更新的话需要调用fillLinStackTrace()方法。
+#### 7) 异常链
+> - 捕获一个异常后抛出另一个异常，然后需要把前一个异常的信息保存下来交给下一个异常，这种传递链就叫做**异常链**
+> - 后面讲的东西有点复杂。。。
+  
+
+        
+------      
+        
+<h2 id='8'>八、泛型程序设计</h2>
+<h3 id='8.1'>8.1 介绍</h3>  
+        
+#### 1) 
+> - 
+> - 
+> -  
+                    
+
+                
+------  
+                
+<h2 id='9'>九、集合</h2>
+<h3 id='9.1'>9.1 集合</h3>  
         
 
 >>>>>> ![图7-10 容器的分类图](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-10%20%E5%AE%B9%E5%99%A8%E7%9A%84%E5%88%86%E7%B1%BB%E5%9B%BE.png?raw=true)
@@ -1135,77 +1227,106 @@ Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当�
                 for(String s: cs) {
                     // doSomething
                 }
-
-        
         
 ------      
         
-<h2 id='10'>十、通过异常处理错误</h2>
-<h3 id='10.1'>10.1 概念</h3>  
+<h2 id='10'>十、反射</h2>
+<h3 id='10.1'>10.1 介绍</h3>  
         
-#### 1) 基本理念
-> - “结构不佳的代码不能运行”
-> - 对于异常处理的实现最早可以追溯到20世纪60年代的操作系统，设甚至于BASIC语言中的on error goto语句
-> - C++的异常处理机制是基于Ada，Java中的异常处理则建立在C++的基础之上
-> - 一个明显的好处是，往往可以降低错误处理代码的复杂度，如果不适用异常，那就必须检查特定的错误，并在程序中的许多地方去处理它。而如果使用异常，则就不必在方法调用处进行检查。因为异常机制将把凭证能够捕获这个错误。并且，只需要在一个地方处理错误————即所谓的异常处理程序中。
-#### 2) 基本异常
-> - 普通问题：在当前环境下能得到足够的信息，总能处理这个错误
-> - 异常抛出：在当前环境下无法获得必要的信息来解决问题，只能从当前的环境中跳出，并且把问题提交给上一级的环境。
-#### 3）异常抛出后的处理
-> - 当异常抛出后，将使用new在堆上创建异常对象。然后在当前执行路径被终止，从当前环境中弹出对异常对象的引用，此时，异常处理机制接管程序，并开始寻找一个恰当的地方来继续执行程序。这个恰当的地方就是**异常处理程序**。它的任务是从错误状态中恢复，以使程序要么换一种方式运行，要么继续运行下去。
-#### 4）异常类型的根类和基类
-> - 根类：Throwable对象
-> - 基类：Exception对象
-        
-<h3 id='10.2'>10.2 捕获异常与创建自定义异常</h3>  
-        
-#### 1) try块
-#### 2) 异常处理程序
-> - 两种基本模型：终止模型 && 恢复模型
-#### 3) 创建自定义异常
-> - 要自己定义异常类，必须从已有的异常类继承，最好是选择意思相近的异常类继承。
+#### 1) 特点
+> - 在编译时不必已知某个对象的确切类型，便能在运行时获取类的信息
+> - java.lang.reflect类库，包含了
+>> - Field类　用get()和set()方法读取和修改Field关联的字段
+>> - Method类 用invoke()方法调用与Method对象关联的方法
+>> - Constructor类
+> - 以上三个类都实现了Member接口，这些类型都是在JVM在运行时创建
+#### 2) 与RTTI的区别
+> - 对RTTI来说，编译器在编译时打开和检查.class文件，而对于反射机制而言，.class文件在编译的时候不可获取，所以只能在运行时打开和检查.class文件
+#### 3) 类方法提取器
+> - Class方法的getMethods()和getConstructors()方法分别返回Method对象的数组和Constructor独对象的数组
+> - 主要用于查找类的方法不看JDK文档（大雾？）
                 
-                class SimpleException extends Exception {
+                /**
+                 * 
+                 */
+                package com.sjtu.javaStudy;
+                import java.io.BufferedReader;
+                import java.io.StringReader;
+                import java.util.Scanner;
+                import java.util.regex.Matcher;
+                import java.util.regex.Pattern;
 
-                }
-                punlic class InheritingExceptions {
-                    public void f() throws SimpleException {
+                import java.lang.reflect.*;
 
+                /**
+                 * @author hblvs
+                 *
+                 */
+                public class JavaTest {
+                    
+                    publc static BufferedReader buffer(String str) {
+                        BufferedReader bf = new BufferedReader(new StringReader(str));
+                        return bf;
+                    }
+
+
+                    /**
+                     * @param args
+                     */
+                    public static void main(String[] args) {
+                        // TODO Auto-generated method stub
+                             @SuppressWarnings("rawtypes")
+                             Class javatest = Class.forName("com.sjtu.javaStudy.JavaTest");
+                             Method[] method = javatest.getMethods();
+                             for(Method m1 : method) {
+                                 System.out.println(m1);
+                             }
+                             @SuppressWarnings("rawtypes")
+                             Constructor[] constructor = javatest.getConstructors();
+                             for(@SuppressWarnings("rawtypes") Constructor c1 : constructor) {
+                                 System.out.println(c1);
+                             }
+                         } catch (ClassNotFoundException e) {
+                             // TODO Auto-generated catch block
+                             e.printStackTrace();
+                         } catch (SecurityException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
                     }
                 }
+                
+                // Output
+                public static void com.sjtu.javaStudy.JavaTest.main(java.lang.String[])
+                public static java.io.BufferedReader com.sjtu.javaStudy.JavaTest.buffer(java.lang.String)
+                public final void java.lang.Object.wait() throws java.lang.InterruptedException
+                public final void java.lang.Object.wait(long,int) throws java.lang.InterruptedException
+                public final native void java.lang.Object.wait(long) throws java.lang.InterruptedException
+                public boolean java.lang.Object.equals(java.lang.Object)
+                public java.lang.String java.lang.Object.toString()
+                public native int java.lang.Object.hashCode()
+                public final native java.lang.Class java.lang.Object.getClass()
+                public final native void java.lang.Object.notify()
+                public final native void java.lang.Object.notifyAll()
+                public com.sjtu.javaStudy.JavaTest()
 
-                public static void main(String[] args) {
-                    InheritingExceptions sed = new InheritingExceptions();
-                    try {
-                        sed.f();
-                    } catch (SimpleException e) {
-                        // 处理自定义异常
-                    }
-                }
-#### 4) 捕获所有异常
-> - 最简单的方法，最好放在程序列表的末尾，以防它抢在其他处理程序之前把异常捕获        
+#### 4) Java反射技术栈
+> - [Java反射技术栈](https://github.com/hblvsjtu/Java_Study/blob/master/Java%E5%8F%8D%E5%B0%84%E6%8A%80%E6%9C%AF%E6%A0%88.pdf)
                 
-                catch(Exception e) {
-                    System.out.printIn("Caught an exception");
-                }
-> - 但是Exception这个基类不包含太多的信息，不过可以调用其基类Throwable继承的方法来获取详细的信息
-                
-                String getMessage()
-                String getLocalizedMessage()
->>>>>> ![图10-1 容器的分类图](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE10-1%20Exception%E7%9A%84%E4%BD%BF%E7%94%A8.png?raw=true)
-#### 5) 栈轨迹
-> - printStackTrace()方法所提供的信息可以通过getStackTrace()方法来直接访问。这个方法返回一个由栈轨迹中元素所构成的数组。每个元素都表示栈中的一帧。元素0是栈顶元素。并且是调用序列中最后一个方法调用，数组中的最后一个元素是和栈底是调用序列中的第一个方法调用
-> - 打印的时候是从最内层开始到最外层，这就说明是从调用序列中的第一个元素开始打印，第一个元素也是方法的最内层调用，最后一个元素是最外层的调用
->>>>>> ![图10-2 printStackTrack](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE10-2%20printStackTrack.png?raw=true)
-#### 6) 重新抛出异常
-> - 直接在catch中添加throw e
-> - 但是重新抛出后printStackTrace()显示的是原来异常抛出点的调用栈信息，而非重新抛出点的信息，要更新的话需要调用fillLinStackTrace()方法。
-#### 7) 异常链
-> - 捕获一个异常后抛出另一个异常，然后需要把前一个异常的信息保存下来交给下一个异常，这种传递链就叫做**异常链**
-> - 后面讲的东西有点复杂。。。
-  
+
         
 ------      
+        
+<h2 id='11'>十一、部署Java应用程序</h2>
+<h3 id='11.1'>11.1 介绍</h3>  
+        
+#### 1) 
+> - 
+> - 
+> -   
+        
+        
+------          
         
 <h2 id='12'>十二、类型信息与注解、字符串</h2>
 <h3 id='12.1'>12.1 类型信息</h3>  
@@ -1316,94 +1437,13 @@ Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当�
                 House.class.cast(otherClass);1
 
        
-<h3 id='12.3'>12.3 反射</h3>  
-        
-#### 1) 特点
-> - 在编译时不必已知某个对象的确切类型，便能在运行时获取类的信息
-> - java.lang.reflect类库，包含了
->> - Field类　用get()和set()方法读取和修改Field关联的字段
->> - Method类 用invoke()方法调用与Method对象关联的方法
->> - Constructor类
-> - 以上三个类都实现了Member接口，这些类型都是在JVM在运行时创建
-#### 2) 与RTTI的区别
-> - 对RTTI来说，编译器在编译时打开和检查.class文件，而对于反射机制而言，.class文件在编译的时候不可获取，所以只能在运行时打开和检查.class文件
-#### 3) 类方法提取器
-> - Class方法的getMethods()和getConstructors()方法分别返回Method对象的数组和Constructor独对象的数组
-> - 主要用于查找类的方法不看JDK文档（大雾？）
-                
-                /**
-                 * 
-                 */
-                package com.sjtu.javaStudy;
-                import java.io.BufferedReader;
-                import java.io.StringReader;
-                import java.util.Scanner;
-                import java.util.regex.Matcher;
-                import java.util.regex.Pattern;
-
-                import java.lang.reflect.*;
-
-                /**
-                 * @author hblvs
-                 *
-                 */
-                public class JavaTest {
-                    
-                    publc static BufferedReader buffer(String str) {
-                        BufferedReader bf = new BufferedReader(new StringReader(str));
-                        return bf;
-                    }
-
-
-                    /**
-                     * @param args
-                     */
-                    public static void main(String[] args) {
-                        // TODO Auto-generated method stub
-                             @SuppressWarnings("rawtypes")
-                             Class javatest = Class.forName("com.sjtu.javaStudy.JavaTest");
-                             Method[] method = javatest.getMethods();
-                             for(Method m1 : method) {
-                                 System.out.println(m1);
-                             }
-                             @SuppressWarnings("rawtypes")
-                             Constructor[] constructor = javatest.getConstructors();
-                             for(@SuppressWarnings("rawtypes") Constructor c1 : constructor) {
-                                 System.out.println(c1);
-                             }
-                         } catch (ClassNotFoundException e) {
-                             // TODO Auto-generated catch block
-                             e.printStackTrace();
-                         } catch (SecurityException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                
-                // Output
-                public static void com.sjtu.javaStudy.JavaTest.main(java.lang.String[])
-                public static java.io.BufferedReader com.sjtu.javaStudy.JavaTest.buffer(java.lang.String)
-                public final void java.lang.Object.wait() throws java.lang.InterruptedException
-                public final void java.lang.Object.wait(long,int) throws java.lang.InterruptedException
-                public final native void java.lang.Object.wait(long) throws java.lang.InterruptedException
-                public boolean java.lang.Object.equals(java.lang.Object)
-                public java.lang.String java.lang.Object.toString()
-                public native int java.lang.Object.hashCode()
-                public final native java.lang.Class java.lang.Object.getClass()
-                public final native void java.lang.Object.notify()
-                public final native void java.lang.Object.notifyAll()
-                public com.sjtu.javaStudy.JavaTest()
-#### 4) Java反射技术栈
-> - [Java反射技术栈](https://github.com/hblvsjtu/Java_Study/blob/master/Java%E5%8F%8D%E5%B0%84%E6%8A%80%E6%9C%AF%E6%A0%88.pdf)
-       
-<h3 id='12.4'>12.4 空对象</h3>  
+<h3 id='12.3'>12.3 空对象</h3>  
         
 #### 1) 特点
 > - 可以接受传递给他的所以代表的对象的消息，但是实际返回表示为实际上并不存在任何真实对象的值
 > - 可以想象为空，但以后会赋值
     
-<h3 id='12.5'>12.5 注解</h3>  
+<h3 id='12.4'>12.4 注解</h3>  
         
 #### 1) 介绍
 > - 也叫做元数据，为代码添加信息提供一种形式化的方法，一遍在以后可以方便地使用
