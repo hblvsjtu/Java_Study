@@ -1,8 +1,7 @@
 package practice;
 
-import java.io.PrintWriter;
-import java.nio.file.Paths;
-import java.util.Scanner;
+import java.io.IOException;
+import tool.IOFile;
 
 /**
  * Description:
@@ -23,8 +22,9 @@ public class HelloWorld {
 	 * Main 方法
 	 * @param args
 	 * @return none
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		String s2 = "Java";
 		System.out.println(s1);
 		System.out.println(s2);
@@ -54,38 +54,9 @@ public class HelloWorld {
         startTime = System.currentTimeMillis();
         endTime = System.currentTimeMillis(); 
         System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
+        assert startTime < 0 : "startTime > 0";
         // 常规方法
-        
-//        Scanner in = new Scanner(System.in);
-//        System.out.println("Please input your name：");
-//        String name = in.nextLine();
-//        String sex = in.next();
-//        int age = in.nextInt();
-//        String line = in.nextLine();
-//        System.out.println("\n" + name + "先生,\n性别：" + sex + ",\n年龄："+ age + ";\n密码："+ "。");
-        try {
-        	@SuppressWarnings("resource")
-			Scanner file = new Scanner(Paths.get("C:\\Users\\Lv Hongbin\\Desktop\\StartWeChat.bat"), "UTF-8");
-        	System.out.println("StartWeChat.bat: " + file.nextLine());
-        	PrintWriter pw = new PrintWriter("C:\\Users\\Lv Hongbin\\Desktop\\PrintWriter.txt", "UTF-8");
-        	pw.print("PrintWriter");
-        	pw.close();
-        }catch(Exception e) {
-        	System.out.println("Exception e: " + e);
-        }finally{
-        	
-        }
-        try {
-        	int[] arrayInt = new int[]{1, 2 , 3, 4, 5};
-            PrintWriter outputArray = new PrintWriter("C:\\Users\\Lv Hongbin\\Desktop\\outputArray.txt", "UTF-8");
-            for(int element: arrayInt) {
-                outputArray.println(element);
-            }
-            outputArray.close();
-        }catch(Exception e) {
-        	System.out.println("Exception e: " + e);
-        }finally {
-        	
-        }
+        IOFile io = new IOFile("xiaoJuan");
+        io.writeFile();
 	}
 }

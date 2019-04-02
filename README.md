@@ -39,7 +39,10 @@
 ### [6.2 为什么需要内部类](#6.2)
 ## [七、异常、断言和日志](#7)
 ### [7.1 概念](#7.1)
-### [7.2 捕获异常与创建自定义异常](#7.2)
+### [7.2 异常](#7.2)
+### [7.3 捕获异常与创建自定义异常](#7.3)
+### [7.4 断言](#7.4)
+### [7.5 日志](#7.5)
 ## [八、泛型程序设计](#8)
 ### [8.1 概念](#8.1)
 ## [九、集合](#9)
@@ -1050,6 +1053,13 @@ Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当�
 <h2 id='7'>七、异常、断言和日志</h2>
 <h3 id='7.1'>7.1 概念</h3>  
         
+#### 1) 三种处理系统错误的机制
+> - 抛出一个异常
+> - 日志
+> - 使用断言
+                
+<h3 id='7.2'>7.2 异常</h3>  
+        
 #### 1) 基本理念
 > - “结构不佳的代码不能运行”
 > - 对于异常处理的实现最早可以追溯到20世纪60年代的操作系统，设甚至于BASIC语言中的on error goto语句
@@ -1060,17 +1070,34 @@ Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当�
 > - 异常抛出：在当前环境下无法获得必要的信息来解决问题，只能从当前的环境中跳出，并且把问题提交给上一级的环境。
 #### 3）异常抛出后的处理
 > - 当异常抛出后，将使用new在堆上创建异常对象。然后在当前执行路径被终止，从当前环境中弹出对异常对象的引用，此时，异常处理机制接管程序，并开始寻找一个恰当的地方来继续执行程序。这个恰当的地方就是**异常处理程序**。它的任务是从错误状态中恢复，以使程序要么换一种方式运行，要么继续运行下去。
-#### 4）异常类型的根类和基类
+#### 4）异常类型
 > - 根类：Throwable对象
-> - 基类：Exception对象
+> - Throwable对象包含Error和Exception异常，Exception异常包括IOException和RuntimeException
+>>>>>> ![图7-1 异常类型.jpg](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-6%20%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB%E5%8C%96%E7%AE%80%E5%90%8E.png?raw=true)
+                
+> - 非受查异常（unchecked）
+>> - Error类，Java运行时系统内部错误和资源耗尽错误，其实就是系统内部错误，不是人为造成的
+>> - RuntimeException类，可以说是逻辑异常，包括错误的类型转换、数组访问越界、访问null指针。如果出现该异常，说明肯定是你自己的问题。
+> - 受查异常（checked）
+>> - 其他类的异常。编译器将检查是否为所有受查异常提供了异常处理器
+>> - 需要声明受查异常
+                
+                public void writeFile() throws IOException{
+                    BigInteger[] big = {BigInteger.valueOf(1234567890L),BigInteger.valueOf(9876543210L)};
+                    PrintWriter pw = new PrintWriter("C:\\Users\\Lv Hongbin\\Desktop\\PrintWriter.txt", "UTF-8");
+                    pw.print("authod: " + this.name + "\r\n" + big[0].add(big[1]));
+                    pw.close();
+                }
+
         
-<h3 id='7.2'>7.2 捕获异常与创建自定义异常</h3>  
+<h3 id='7.3'>7.3 捕获异常与创建自定义异常</h3>  
         
 #### 1) try块
 #### 2) 异常处理程序
 > - 两种基本模型：终止模型 && 恢复模型
 #### 3) 创建自定义异常
 > - 要自己定义异常类，必须从已有的异常类继承，最好是选择意思相近的异常类继承。
+> - 每个异常类都有两个构造器，一个是默认构造器，另一个是带有String message为参数的有参构造器。
                 
                 class SimpleException extends Exception {
 
@@ -1110,8 +1137,25 @@ Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当�
 #### 7) 异常链
 > - 捕获一个异常后抛出另一个异常，然后需要把前一个异常的信息保存下来交给下一个异常，这种传递链就叫做**异常链**
 > - 后面讲的东西有点复杂。。。
-  
+        
+<h3 id='7.4'>7.4 使用断言</h3>  
+        
+#### 1) 使用场合
+> - 断言失败是致命的，不可恢复的错误
+> - 断言检查只用于开发和测试阶段用于确定程序内部错误的位置和原因
+#### 2) 关键字assert
+> - 两种方式，第一种不带AssertionError构造器（没有冒号及其后面那一部分），第二种带AssertionError构造器，并将冒号后面的值作为参数传入转换成一个消息字符串
+                
+                assert startTime < 0 : "startTime > 0";
 
+                Exception in thread "main" java.lang.AssertionError: startTime > 0 at practice.HelloWorld.main(HelloWorld.java:57)
+#### 3) 开启方式
+> - 在eclipse中 1.Run -> Run Configurations -> Arguments页签 -> VM arguments文本框中加上断言开启的标志:-enableassertions 或者-ea 就可以了
+        
+<h3 id='7.5'>7.5 日志</h3>  
+        
+#### 1) 使用场合
+> - 
         
 ------      
         
