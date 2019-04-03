@@ -7,16 +7,16 @@ package practice;
  * @author LvHongbin
  *
  */
-public class GenericClass<T, U> {	//泛型类
+public class GenericClass<T, U> implements  Generic<String, Integer> {	//泛型类
 	private T first;
-	private T second;
+	private U second;
 	
 	public GenericClass() {
 		first = null;
 		second = null;
 	}
 	
-	public GenericClass(T first, T second) {
+	public GenericClass(T first, U second) {
 		this.first = first;
 		this.second = second;
 	}
@@ -31,10 +31,11 @@ public class GenericClass<T, U> {	//泛型类
 	/**
 	 * @param first the first to set
 	 */
-	public void setFirst(T first) {
-		this.first = first;
+	@SuppressWarnings("unchecked")
+	public void setFirst(String first) {
+		this.first = (T) first;
 	}
-
+	
 	/**
 	 * @return the second
 	 */
@@ -46,8 +47,8 @@ public class GenericClass<T, U> {	//泛型类
 	/**
 	 * @param second the second to set
 	 */
-	public void setSecond(T second) {
-		this.second = second;
+	@SuppressWarnings("unchecked")
+	public void setSecond(Integer second) {
+		this.second = (U) second;
 	}
-	
 }

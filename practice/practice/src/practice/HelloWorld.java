@@ -1,6 +1,7 @@
 package practice;
 
 import java.io.IOException;
+
 import tool.IOFile;
 
 /**
@@ -60,9 +61,9 @@ public class HelloWorld {
         io.writeFile();
         GenericClass<String, Integer> genericClassc = new GenericClass<String, Integer>();
         genericClassc.setFirst("first");
-        genericClassc.setSecond("second");
+        genericClassc.setSecond(2);
         System.out.println(genericClassc.getFirst());
-        System.out.println(genericClassc.<String>getSecond());
+        System.out.println(genericClassc.<Integer>getSecond());
         
 	}
 }
