@@ -54,9 +54,15 @@ public class HelloWorld {
         startTime = System.currentTimeMillis();
         endTime = System.currentTimeMillis(); 
         System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
-        assert startTime < 0 : "startTime > 0";
+        assert startTime > 0 : "startTime > 0";
         // 常规方法
         IOFile io = new IOFile("xiaoJuan");
         io.writeFile();
+        GenericClass<String, Integer> genericClassc = new GenericClass<String, Integer>();
+        genericClassc.setFirst("first");
+        genericClassc.setSecond("second");
+        System.out.println(genericClassc.getFirst());
+        System.out.println(genericClassc.<String>getSecond());
+        
 	}
 }
