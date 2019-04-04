@@ -67,8 +67,8 @@
 ### [13.1 留在写《Java多线程编程核心技术》时候再补充](#13.1)
 ## [十四、JVM](#14)
 ### [14.1 留在写《深入理解Java虚拟机》时候再补充](#14.1)
-## [十五、流库](#15)
-### [15.1 介绍](#15.1)
+## [十五、输入与输出](#15)
+### [15.1 Java SE8 的流库](#15.1)
 ## [十六、数据库编程](#16)
 ### [16.1 介绍](#16.1)
 ## [十七、项目经验](#17)
@@ -1073,7 +1073,7 @@ Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当�
 > - Cloneable接口
 >> - Cloneable接口
 >> - 重新定义clone方法，并指定public访问修饰符
->>>>>> ![图5-3 Cloneable接口.jpg](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE7-1%20%E7%AD%96%E7%95%A5%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.png?raw=true)
+>>>>>> ![图5-3 Cloneable接口.jpg](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE5-3%20Cloneable%E6%8E%A5%E5%8F%A3.jpg?raw=true)
                 
 #### 5) 完全解耦
 > - 策略设计模式：能够根据所传递的参数对象的不同而具有不同行为的方法。这类方法包含所要执行算法中固定不变的部分，而“策略”就是传递进去的参数对象。
@@ -1930,12 +1930,86 @@ Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当�
         
 ------      
         
-<h2 id='15'>十五、流库</h2>
-<h3 id='13.1'>15.1 介绍</h3>  
+<h2 id='15'>十五、输入和输出</h2>
+<h3 id='13.1'>15.1 Java SE8 的流库</h3>  
         
-#### 1) 概念
-> - 
-        
+#### 1) 原则
+> - “做什么而非怎么做”
+#### 2) 特点
+> - 流不存储元素。这些元素可能存储在底层的集合中，也可能是按需生成
+> - 流的操作不会修改数据源，而是会生成一个新的流
+> - 流的操作是尽可能的惰性执行的，也就说在程序运行中需要数据的时候才会执行流
+                
+                /**
+                 * 
+                 */
+                package tool;
+
+                import java.util.Arrays;
+                import java.util.List;
+
+                /**
+                 * @author LvHongbin
+                 *
+                 */
+                public class MyStream extends IOFile{
+
+                    /**
+                     * 
+                     */
+
+                    private int count;
+                    private List<String> strList;
+                    public MyStream() {
+                        super();
+                        this.count = 0;
+                        this.strList = Arrays.asList(super.getName().split("/"));
+                    }
+                    
+                    public MyStream(String name, String splitChar) {
+                        super(name);
+                        this.count = 0;
+                        this.strList = Arrays.asList(super.getName().split(splitChar));
+                    }
+                    
+                    public void countNumber(int num) {
+                        for(String str: this.strList) {
+                            if(str.length() > num) {
+                                System.out.println(str);
+                                this.count ++;
+                            }
+                        }
+                        System.out.println("this.count = " + this.strList.stream().filter(w -> w.length() > num).count());
+                    }
+                }
+
+                MyStream myStream = new MyStream("lvhongbin/lvhongbin1/lvhongbin12/lvhongbin123/lvhongbin1234/lvhongbin12345", "/");
+                myStream.countNumber(10);
+
+                lvhongbin12
+                lvhongbin123
+                lvhongbin1234
+                lvhongbin12345
+                this.count = 4
+
+#### 3) 流的创建
+> - 使用Collection接口的stream方法
+> - 如果你有一个数组，也可以使用静态方法Stream.of方法，参数是数组，返回Stream类
+                
+                Stream<String> words = Stream.of(contents.split("/"))
+> - 使用Array.stream(array, from, to)把数组从第from个元素到第to个元素创建一个流
+#### 4) filter和map方法
+> - filter用于过滤，采用函数式编程，函数中的参数就是流中每个元素
+                
+                this.strList.stream().filter(w -> w.length() > num).count());
+
+> - map用于流中的元素进行转换，同样采用函数式编程，函数中的参数就是流中每个元素
+                
+                this.strList.stream().map(w -> w.subString(0,1)); //取每个元素的首字母
+#### 5) 抽取子流和连接流
+> - Stream.limit(n) 抽取前面n个元素后结束
+> - Stream.skip(n) 忽略前面n个元素后结束
+> - Stream.concat(Stream A, Stream B) 连接A元素和B元素
         
 ------      
         

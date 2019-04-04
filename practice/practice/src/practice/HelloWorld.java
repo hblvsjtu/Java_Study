@@ -3,6 +3,7 @@ package practice;
 import java.io.IOException;
 
 import tool.IOFile;
+import tool.MyStream;
 
 /**
  * Description:
@@ -64,6 +65,7 @@ public class HelloWorld {
         genericClassc.setSecond(2);
         System.out.println(genericClassc.getFirst());
         System.out.println(genericClassc.<Integer>getSecond());
-        
+        MyStream myStream = new MyStream("lvhongbin/lvhongbin1/lvhongbin12/lvhongbin123/lvhongbin1234/lvhongbin12345", "/");
+        myStream.countNumber(10);
 	}
 }
