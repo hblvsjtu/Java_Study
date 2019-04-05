@@ -63,8 +63,7 @@
 ### [12.2 Class对象](#12.2)
 ### [12.3 空对象](#12.3)
 ### [12.4 注解](#12.4)
-## [十三、并发](#13)
-### [13.1 留在写《Java多线程编程核心技术》时候再补充](#13.1)
+## [十三、并发与多线程](https://github.com/hblvsjtu/JavaMultiThreadProgramming_Study/blob/master/README.md)
 ## [十四、JVM](#14)
 ### [14.1 留在写《深入理解Java虚拟机》时候再补充](#14.1)
 ## [十五、输入与输出](#15)
@@ -1913,11 +1912,8 @@ Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当�
         
 ------      
         
-<h2 id='12'>十三、并发</h2>
-<h3 id='13.1'>13.1 留在写《Java多线程编程核心技术》时候再补充</h3>  
-        
-#### 1) 概念
-> - 
+<h2 id='12'>十三、并发与多线程</h2>
+[地址](https://github.com/hblvsjtu/JavaMultiThreadProgramming_Study/blob/master/README.md)
 
         
         
@@ -2084,7 +2080,7 @@ Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当�
 >> - 对于每个对象，当第一次遇到的时候，保存其对象数据到输出流中
 >> - 如果某个对象之前已经被保存过，那么只写出“与之前保存过的序列号为x的对象相同”
 >> - 在读回的时候，整个过程是相反的
-> - [图15-1 一个对象序列化的实例.jpg](https://github.com/hblvsjtu/Java_Study/blob/master/java%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C.pdf)
+> - [图15-1 一个对象序列化的实例.jpg](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE15-1%20%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E5%BA%8F%E5%88%97%E5%8C%96%E7%9A%84%E5%AE%9E%E4%BE%8B.jpg?raw=true)
         
 
                 
@@ -2238,7 +2234,7 @@ Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当�
                 Writer Out = Files.newBufferedWriter(path, charset);
 
 > - 内存映射文件FileChannel类 利用虚拟内存实现将一个文件或者文件的一部分“映射”到内存中，然后这个文件就可以当作是内存数组一样地访问，比传统的文件操作要快很多。
-> - [图15-2 文件操作的处理时间数据.jpg](https://github.com/hblvsjtu/Java_Study/blob/master/java%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C.pdf)
+> - [图15-2 文件操作的处理时间数据.jpg](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE15-2%20%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E7%9A%84%E5%A4%84%E7%90%86%E6%97%B6%E9%97%B4%E6%95%B0%E6%8D%AE.jpg?raw=true)
         
 > - 创建文件 Files.createDirectory(path)
 > - 复制文件 Files.copy(fromPath, toPath, StandardOpenOption.XXX) Files.copy(inputStream, toPath, StandardOpenOption.XXX) Files.copy(fromPath, outputStream, StandardOpenOption.XXX)
@@ -2248,7 +2244,7 @@ Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当�
 #### 3) 缓冲区数据结构
 > - 当耗尽所有数据或者写出的数据量达到容量大小的时候，就该切换读入的操作
 > - 通过调用flip的方法将界限设置到当前位置，并把读写位置复位到0，
-> - [图15-3 缓冲区数据结构.jpg](https://github.com/hblvsjtu/Java_Study/blob/master/java%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C.pdf)
+> - [图15-3 缓冲区数据结构.jpg](https://github.com/hblvsjtu/Java_Study/blob/master/picture/%E5%9B%BE15-3%20%E7%BC%93%E5%86%B2%E5%8C%BA%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.jpg?raw=true)
 #### 4) 文件锁
 > - 需要用到FileChannel类
                 
