@@ -60,6 +60,9 @@ public class HelloWorld {
         // 常规方法
         IOFile io = new IOFile("xiaoJuan");
         io.writeFile();
+        io.inputFile();
+        io.outputObject(new String("12345"));
+        io.intputObject();
         GenericClass<String, Integer> genericClassc = new GenericClass<String, Integer>();
         genericClassc.setFirst("first");
         genericClassc.setSecond(2);

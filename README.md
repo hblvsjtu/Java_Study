@@ -69,6 +69,8 @@
 ### [14.1 留在写《深入理解Java虚拟机》时候再补充](#14.1)
 ## [十五、输入与输出](#15)
 ### [15.1 Java SE8 的流库](#15.1)
+### [15.2 输入和输出](#15.2)
+### [15.3 操作文件](#15.3)
 ## [十六、数据库编程](#16)
 ### [16.1 介绍](#16.1)
 ## [十七、项目经验](#17)
@@ -1931,7 +1933,7 @@ Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当�
 ------      
         
 <h2 id='15'>十五、输入和输出</h2>
-<h3 id='13.1'>15.1 Java SE8 的流库</h3>  
+<h3 id='15.1'>15.1 Java SE8 的流库</h3>  
         
 #### 1) 原则
 > - “做什么而非怎么做”
@@ -2010,7 +2012,253 @@ Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当�
 > - Stream.limit(n) 抽取前面n个元素后结束
 > - Stream.skip(n) 忽略前面n个元素后结束
 > - Stream.concat(Stream A, Stream B) 连接A元素和B元素
+#### 6) 其他流转换
+> - Stream.distinct() 包含一个流，里面没有重复的元素
+> - Stream.sorted() 排序
+#### 7) 简单约简Optional<T>类
+> - 从数据中获取最终答案，是一种终结操作，称为“约简”
+> - Optional<T>类对象是一种包装器类型，但是它只有两种结果，要么包含了类型T的对象，要么没有包含任何对象。其实也就是在该对象没有赋值的情况下给它默认一个值。
+#### 8) 基本类型流
+> - IntStream、LongStream和DoubleStream
+                
+<h3 id='15.2'>15.2 输入和输出</h3>  
         
+#### 1) 基础
+> - 抽象类InputStream，有一个抽象方法
+                
+                // 读入一个字节，并返回读入的字节，如果遇到源结尾则返回-1
+                abstract int read()
+> - 抽象类OutputStream，有一个抽象方法
+                
+                // 向某个输出位置写出一个字节
+                abstract void write(int b)  
+> - read和write方法在执行时都会阻塞流，直至字节确实被读入或者写出，即当前线程被阻塞
+> - 完成流的输入和输出的时候，需要调用close()方法关闭它。再关闭到时候也会冲刷用于该输出流的缓冲区。如果不关闭则有可能最后一个包将永远得不到传递。当然我们还可以使用flush方法人为冲刷。
+#### 2) 字节级别的输入输出
+> - FileInputStream & FileOutputStream & PushbackInputStream & DataInputStream
+> - 字节级别的读写
+> - 可以进行组合，比较灵活
+                
+                public void inputFile() throws IOException{
+                        PushbackInputStream pin = new PushbackInputStream(  // 可回推用于预览
+                                new BufferedInputStream(
+                                        new FileInputStream("C:\\Users\\Lv Hongbin\\Desktop\\123.txt")
+                                )
+                        );
+                        int b = pin.read(); //读取Unicode码元0~65535之间的整数，每次读一个，每次读一个
+                        if(b == '%') {
+                            pin.unread(b);  //回退
+                            System.out.println("123.txt: " + "//回退");
+                        }
+                        DataInputStream din = new DataInputStream(pin); //可以把读到的字节进行组装到更有用的数据类型中
+                        System.out.println("123.txt: " + din.read() + " " + din.readInt());    //读取Unicode码元0~65535之间的整数，每次读一个
+                        din.close();
+                    }
+
+                    IOFile io = new IOFile();
+                    io.inputFile();
+
+                    123.txt: //回退
+                    123.txt: 49 842216501 
+
+> - ZIP压缩文件
+                    
+                    ZipInputStream zin = new ZipInputStream(new FileInputStream("C:\\Users\\Lv Hongbin\\Desktop\\123.zip"));
+                     DataInputStream din = new DataInputStream(zin);
+
+#### 3) 文件的输入InputStreamReader & 输出OutputStreamWriter
+> - 可以选择编码格式
+> - 输出更习惯使用PrintWriter
+> - 输入更习惯使用Scanner
+> - 详细请看 [2.6 输入与输出](#2.6)
+#### 4) 读写二进制数据
+> - 文本格式的读写在阅读和调试方面比较方便，但是二进制格式的读写会更加的高效
+> - DataInput 和 DataOutput
+#### 5) 对象的输入/输出流与序列化
+> - 主要是用来保存对象的数据
+> - 首先要获得一个ObjectInputStream或者是ObjectOutputStream对象
+> - “对象序列化”，可以将任何对象写到输出流中，并将其读回。其中有一定需要注意的是该类必须要实现Serializable接口，虽然这个接口没有任何方法，否则会出错。
+> - 可以利用这个方法进行深拷贝（比如利用System.out或者ByteArrayOutputStream作为临时存储）
+> - 序列化的算法
+>> - 对你遇到的每一个对象引用都关联一个序列号
+>> - 对于每个对象，当第一次遇到的时候，保存其对象数据到输出流中
+>> - 如果某个对象之前已经被保存过，那么只写出“与之前保存过的序列号为x的对象相同”
+>> - 在读回的时候，整个过程是相反的
+> - [图15-1 一个对象序列化的实例.jpg](https://github.com/hblvsjtu/Java_Study/blob/master/java%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C.pdf)
+        
+
+                
+                /**
+                 * 
+                 */
+                package tool;
+
+                import java.io.BufferedInputStream;
+                import java.io.DataInputStream;
+                import java.io.FileInputStream;
+                import java.io.FileOutputStream;
+                import java.io.IOException;
+                import java.io.ObjectInputStream;
+                import java.io.ObjectOutputStream;
+                import java.io.PrintWriter;
+                import java.io.PushbackInputStream;
+                import java.io.Serializable;
+                import java.math.BigInteger;
+                import java.nio.file.Paths;
+                import java.util.Scanner;
+
+                /**
+                 * @author LvHongbin
+                 *
+                 */
+                public class IOFile implements Serializable{
+                    
+                    private String name;
+                    
+                    public IOFile() {
+                        this.name = "Lv Hongbin";
+                    }
+                    
+                    public IOFile(String name) {
+                        this.name = name;
+                    }
+                    
+                    public String getName() {
+                        return this.name;
+                    }
+                    
+                    public void modifyName(String name) {
+                        this.name = name;
+                    }
+                    
+                    public void scan() throws IOException{
+                        Scanner in = new Scanner(System.in);
+                        System.out.println("Please input your name：");
+                        String name = in.nextLine();
+                        String sex = in.next();
+                        int age = in.nextInt();
+                        System.out.println("\n" + name + "先生,\n性别：" + sex + ",\n年龄："+ age + ";\n密码："+ "。");
+                        in.close();
+                    }
+                    
+                    public void writeFile() throws IOException{
+                        BigInteger[] big = {BigInteger.valueOf(1234567890L),BigInteger.valueOf(9876543210L)};
+                        PrintWriter pw = new PrintWriter("C:\\Users\\Lv Hongbin\\Desktop\\PrintWriter.txt", "UTF-8");
+                        pw.print("authod: " + this.name + "\r\n" + big[0].add(big[1]));
+                        pw.close();
+                    }
+                    
+                    public void readFile() throws IOException{
+                        @SuppressWarnings("resource")
+                        Scanner file = new Scanner(Paths.get("C:\\Users\\Lv Hongbin\\Desktop\\StartWeChat.bat"), "UTF-8");
+                        System.out.println("StartWeChat.bat: " + file.nextLine());
+                    }
+                    
+                    public void inputFile() throws IOException{
+                        PushbackInputStream pin = new PushbackInputStream(  // 可回推用于预览
+                                new BufferedInputStream(
+                                        new FileInputStream("C:\\Users\\Lv Hongbin\\Desktop\\123.txt")
+                                )
+                        );
+                        int b = pin.read();
+                        if(b == '1') {
+                            pin.unread(b);  //回退
+                            System.out.println("123.txt: " + "//回退");
+                        }
+                        DataInputStream din = new DataInputStream(pin);
+                        System.out.println("123.txt: " + din.read() + " " + din.readInt());
+                        din.close();
+                    }
+                    
+                    public void outputObject(Object obj) throws IOException{
+                        ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("C:\\Users\\Lv Hongbin\\Desktop\\123.txt"));
+                        output.writeObject(obj);
+                        output.flush();
+                        output.close();
+                    }
+                    
+                    public void intputObject() throws IOException{
+                        ObjectInputStream input = new ObjectInputStream(new FileInputStream("C:\\Users\\Lv Hongbin\\Desktop\\123.txt"));
+                        try {
+                            IOFile str = (IOFile) input.readObject();
+                            System.out.println(str.name);
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        input.close();
+                    }
+                }
+
+
+                IOFile io = new IOFile();
+                io.outputObject(new IOFile("xiaoJuan"));
+                io.intputObject();
+
+                xiaoJuan
+
+                file:  sr tool.IOFile痷毘u L namet Ljava/lang/String;xpt xiaoJuan
+
+                
+<h3 id='15.3'>15.3 操作文件</h3>  
+        
+#### 1) Path
+> - 目录类
+                
+                Path p = Paths.get("目录名");
+                Path p = Paths.get("目录名分割1", "目录名分割2", "目录名分割3"...);    // 虚拟机会根据不同的系统用“/”或者“\”连接起来
+
+#### 2) 基本文件操作
+> - 读取文件
+                
+                // 方法一，使用Scanner类，但是要逐行读入
+                
+                // 方法二，当字符串读入所有内容
+                byte[] bytes = Files.readAllBytes(path);
+                String content = new String(bytes, charset);
+
+                // 方法三，把文件当作行序列读入
+                List<String> line = Files.readAllLine(path);
+
+> - 写入文件
+                
+                // 方法一，使用PrintWriter
+
+                // 方法二，写入一个字符串
+                Files.write(path, content.getBytes(charset));
+
+                // 方法三，写入一行
+                Files.write(Path, lines);
+
+> - 大文件需要以来输入和输出流，或者读写器
+                
+                InputStream in = Files.newInputStream(path);
+                OutputStream Out = Files.newOutputStream(path);
+
+                Reader in = Files.newBufferedReader(path, charset);
+                Writer Out = Files.newBufferedWriter(path, charset);
+
+> - 内存映射文件FileChannel类 利用虚拟内存实现将一个文件或者文件的一部分“映射”到内存中，然后这个文件就可以当作是内存数组一样地访问，比传统的文件操作要快很多。
+> - [图15-2 文件操作的处理时间数据.jpg](https://github.com/hblvsjtu/Java_Study/blob/master/java%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C.pdf)
+        
+> - 创建文件 Files.createDirectory(path)
+> - 复制文件 Files.copy(fromPath, toPath, StandardOpenOption.XXX) Files.copy(inputStream, toPath, StandardOpenOption.XXX) Files.copy(fromPath, outputStream, StandardOpenOption.XXX)
+> - 移动文件 Files.move(fromPath, toPath, StandardOpenOption.XXX)
+> - 删除文件 Files.delete(Path) 但是为了避免文件不存在而抛出异常，可以使用Files.deleteIfExist(Path)
+> - 其他方法 Files.exists(Path)，Files.isHidden(Path)，Files.isReadable(Path)，Files.isWritable(Path)，Files.isExecutable(Path)，Files.size(Path)
+#### 3) 缓冲区数据结构
+> - 当耗尽所有数据或者写出的数据量达到容量大小的时候，就该切换读入的操作
+> - 通过调用flip的方法将界限设置到当前位置，并把读写位置复位到0，
+> - [图15-3 缓冲区数据结构.jpg](https://github.com/hblvsjtu/Java_Study/blob/master/java%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C.pdf)
+#### 4) 文件锁
+> - 需要用到FileChannel类
+                
+                FileChannel fc = FileChannel.open(path);
+                FileLock lock = channel.lock();
+                //或者
+                FileLock lock = channel.tryLock();
+
+                //释放
+                lock.release();
 ------      
         
 <h2 id='16'>十六、数据库编程</h2>

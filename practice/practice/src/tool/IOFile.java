@@ -3,8 +3,16 @@
  */
 package tool;
 
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.io.PushbackInputStream;
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.nio.file.Paths;
 import java.util.Scanner;
@@ -13,7 +21,7 @@ import java.util.Scanner;
  * @author LvHongbin
  *
  */
-public class IOFile {
+public class IOFile implements Serializable{
 	
 	private String name;
 	
@@ -54,5 +62,39 @@ public class IOFile {
 		@SuppressWarnings("resource")
 		Scanner file = new Scanner(Paths.get("C:\\Users\\Lv Hongbin\\Desktop\\StartWeChat.bat"), "UTF-8");
     	System.out.println("StartWeChat.bat: " + file.nextLine());
+	}
+	
+	public void inputFile() throws IOException{
+		PushbackInputStream pin = new PushbackInputStream(	// 可回推用于预览
+				new BufferedInputStream(
+						new FileInputStream("C:\\Users\\Lv Hongbin\\Desktop\\123.txt")
+				)
+		);
+		int b = pin.read();
+		if(b == '1') {
+			pin.unread(b);	//回退
+			System.out.println("123.txt: " + "//回退");
+		}
+		DataInputStream din = new DataInputStream(pin);
+    	System.out.println("123.txt: " + din.read() + " " + din.readInt());
+    	din.close();
+	}
+	
+	public void outputObject(Object obj) throws IOException{
+		ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("C:\\Users\\Lv Hongbin\\Desktop\\123.txt"));
+		output.writeObject(obj);
+		output.flush();
+		output.close();
+	}
+	
+	public void intputObject() throws IOException{
+		ObjectInputStream input = new ObjectInputStream(new FileInputStream("C:\\Users\\Lv Hongbin\\Desktop\\123.txt"));
+		try {
+			IOFile str = (IOFile) input.readObject();
+			System.out.println(str.name);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		input.close();
 	}
 }
