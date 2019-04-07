@@ -3,18 +3,42 @@
  */
 package practice;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Date;
-
 /**
  * @author LvHongbin
  *
  */
-public class Worker implements ActionListener {
+public class Worker extends Thread {
+	
+	private int i;
+
+	/**
+	 * @param i
+	 */
+	public Worker(int i) {
+		super();
+		this.i = i;
+	}
+
+	/**
+	 * @return the i
+	 */
+	public int getI() {
+		return i;
+	}
+
+	/**
+	 * @param i the i to set
+	 */
+	public void setI(int i) {
+		this.i = i;
+	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		System.out.println("At the tone, the time is " + new Date());
+	synchronized public void run() {
+		// TODO Auto-generated method stub
+		super.run();
+		this.i++;
+		System.out.println("由 " + Thread.currentThread().getName() + "计算，i的值为 " + i);
 	}
+	
 }

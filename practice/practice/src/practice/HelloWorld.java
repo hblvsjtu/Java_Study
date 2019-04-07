@@ -61,7 +61,7 @@ public class HelloWorld {
         IOFile io = new IOFile("xiaoJuan");
         io.writeFile();
         io.inputFile();
-        io.outputObject(new String("12345"));
+        io.outputObject(new IOFile("abc"));
         io.intputObject();
         GenericClass<String, Integer> genericClassc = new GenericClass<String, Integer>();
         genericClassc.setFirst("first");
@@ -70,5 +70,16 @@ public class HelloWorld {
         System.out.println(genericClassc.<Integer>getSecond());
         MyStream myStream = new MyStream("lvhongbin/lvhongbin1/lvhongbin12/lvhongbin123/lvhongbin1234/lvhongbin12345", "/");
         myStream.countNumber(10);
+        Worker w = new Worker(0);
+        Thread t1 = new Thread(w, "t1");
+        Thread t2 = new Thread(w, "t2");
+        Thread t3 = new Thread(w, "t3");
+        Thread t4 = new Thread(w, "t4");
+        Thread t5 = new Thread(w, "t5");
+        t1.start();
+        t2.start();
+        t3.start();
+        t4.start();
+        t5.start();
 	}
 }

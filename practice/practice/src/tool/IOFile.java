@@ -23,6 +23,10 @@ import java.util.Scanner;
  */
 public class IOFile implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5803708790623734526L;
 	private String name;
 	
 	public IOFile() {
@@ -76,7 +80,7 @@ public class IOFile implements Serializable{
 			System.out.println("123.txt: " + "//»ØÍË");
 		}
 		DataInputStream din = new DataInputStream(pin);
-    	System.out.println("123.txt: " + din.read() + " " + din.readInt());
+    	System.out.println("123.txt: " + din.read() + " " + din.read());
     	din.close();
 	}
 	
